@@ -39,7 +39,7 @@ O sistema permite que **alunos, professores, atléticas e comunidade externa** f
 
 1. **Clone o repositório**
    ```bash
-   git clone git@github.com:SEU_USUARIO/unifio-sga-app.git
+   git clone git@github.com:bryancalvarenga/unifio-sga-app.git
    cd unifio-sga-app
    ```
 
