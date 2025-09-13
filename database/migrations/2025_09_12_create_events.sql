@@ -1,10 +1,10 @@
 /* Events */
 
 CREATE TABLE IF NOT EXISTS events (
-    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     usuario_id INT UNSIGNED NOT NULL, 
     categoria ENUM('ESPORTIVO', 'NAO_ESPORTIVO') NOT NULL,
-    subtipo_esportivo ENUM('FUTSAL','VOLEI', 'BASQUETE') NULL,
+    subtipo_esportivo ENUM('FUTSAL','VOLEI','BASQUETE') NULL,
     subtipo_nao_esportivo ENUM('PALESTRA','WORKSHOP','FORMATURA') NULL,
     finalidade ENUM('TREINO','CAMPEONATO','OUTRO') NULL,
     data_evento DATE NOT NULL,
@@ -21,6 +21,6 @@ CREATE TABLE IF NOT EXISTS events (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     CONSTRAINT fk_evento_usuario FOREIGN KEY (usuario_id) REFERENCES users(id)
-    ON DELETE CASCADE ON UPDATE CASCADE,
+      ON DELETE CASCADE ON UPDATE CASCADE,
     UNIQUE KEY uniq_data_periodo (data_evento, periodo) -- trava de calendário    
 ) ENGINE=InnoDB;
