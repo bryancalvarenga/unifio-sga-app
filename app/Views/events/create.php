@@ -1,89 +1,106 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Criar Evento - Sistema de Atléticas</title>
-</head>
-<body>
-    <h1>Criar Novo Evento</h1>
+<?php 
+$title = "Criar Evento - Sistema de Atléticas"; 
+ob_start(); 
+?>
 
-    <form method="POST" action="/eventos/criar">
-        <label>Categoria:</label>
-        <select name="categoria" required>
+<h1 class="mb-4">Criar Novo Evento</h1>
+
+<form method="POST" action="/eventos/criar" class="row g-3">
+
+    <div class="col-md-6">
+        <label class="form-label">Categoria</label>
+        <select name="categoria" class="form-select" required>
             <option value="ESPORTIVO">Esportivo</option>
             <option value="NAO_ESPORTIVO">Não Esportivo</option>
         </select>
-        <br><br>
+    </div>
 
-        <label>Subtipo Esportivo:</label>
-        <select name="subtipo_esportivo">
+    <div class="col-md-6">
+        <label class="form-label">Subtipo Esportivo</label>
+        <select name="subtipo_esportivo" class="form-select">
             <option value="">-- Se aplicável --</option>
             <option value="FUTSAL">Futsal</option>
             <option value="VOLEI">Vôlei</option>
             <option value="BASQUETE">Basquete</option>
         </select>
-        <br><br>
+    </div>
 
-        <label>Subtipo Não Esportivo:</label>
-        <select name="subtipo_nao_esportivo">
+    <div class="col-md-6">
+        <label class="form-label">Subtipo Não Esportivo</label>
+        <select name="subtipo_nao_esportivo" class="form-select">
             <option value="">-- Se aplicável --</option>
             <option value="PALESTRA">Palestra</option>
             <option value="WORKSHOP">Workshop</option>
             <option value="FORMATURA">Formatura</option>
         </select>
-        <br><br>
+    </div>
 
-        <label>Finalidade:</label>
-        <select name="finalidade">
+    <div class="col-md-6">
+        <label class="form-label">Finalidade</label>
+        <select name="finalidade" class="form-select">
             <option value="TREINO">Treino</option>
             <option value="CAMPEONATO">Campeonato</option>
             <option value="OUTRO">Outro</option>
         </select>
-        <br><br>
+    </div>
 
-        <label>Data:</label>
-        <input type="date" name="data_evento" required>
-        <br><br>
+    <div class="col-md-6">
+        <label class="form-label">Data</label>
+        <input type="date" name="data_evento" class="form-control" required>
+    </div>
 
-        <label>Período:</label>
-        <select name="periodo" required>
+    <div class="col-md-6">
+        <label class="form-label">Período</label>
+        <select name="periodo" class="form-select" required>
             <option value="P1">P1 (19:15 - 20:55)</option>
             <option value="P2">P2 (21:10 - 22:50)</option>
         </select>
-        <br><br>
+    </div>
 
-        <label>Aberto ao público:</label>
-        <input type="checkbox" name="aberto_ao_publico" value="1">
-        <br><br>
+    <div class="col-md-6">
+        <label class="form-label">Aberto ao público</label><br>
+        <input type="hidden" name="aberto_ao_publico" value="0">
+        <input type="checkbox" name="aberto_ao_publico" value="1"> Sim
+    </div>
 
-        <label>Estimativa de participantes:</label>
-        <input type="number" name="estimativa_participantes">
-        <br><br>
+    <div class="col-md-6">
+        <label class="form-label">Estimativa de participantes</label>
+        <input type="number" name="estimativa_participantes" class="form-control">
+    </div>
 
-        <label>Materiais necessários:</label>
-        <textarea name="materiais_necessarios"></textarea>
-        <br><br>
+    <div class="col-12">
+        <label class="form-label">Materiais necessários</label>
+        <textarea name="materiais_necessarios" class="form-control"></textarea>
+    </div>
 
-        <label>Usa materiais da instituição:</label>
-        <input type="checkbox" name="usa_materiais_instituicao" value="1">
-        <br><br>
+    <div class="col-md-6">
+        <label class="form-label">Usa materiais da instituição</label><br>
+        <input type="hidden" name="usa_materiais_instituicao" value="0">
+        <input type="checkbox" name="usa_materiais_instituicao" value="1"> Sim
+    </div>
 
-        <label>Responsável:</label>
-        <input type="text" name="responsavel" required>
-        <br><br>
+    <div class="col-md-6">
+        <label class="form-label">Responsável</label>
+        <input type="text" name="responsavel" class="form-control" required>
+    </div>
 
-        <label>Árbitro:</label>
-        <input type="text" name="arbitro">
-        <br><br>
+    <div class="col-md-6">
+        <label class="form-label">Árbitro</label>
+        <input type="text" name="arbitro" class="form-control">
+    </div>
 
-        <label>Observações:</label>
-        <textarea name="observacoes"></textarea>
-        <br><br>
+    <div class="col-12">
+        <label class="form-label">Observações</label>
+        <textarea name="observacoes" class="form-control"></textarea>
+    </div>
 
-        <button type="submit">Salvar</button>
-    </form>
+    <div class="col-12">
+        <button type="submit" class="btn btn-success">💾 Salvar</button>
+        <a href="/eventos" class="btn btn-secondary">↩️ Voltar</a>
+    </div>
+</form>
 
-    <p><a href="/eventos">Voltar</a></p>
-</body>
-</html>
+<?php 
+$content = ob_get_clean(); 
+include VIEW_PATH . "/layout.php"; 
+?>

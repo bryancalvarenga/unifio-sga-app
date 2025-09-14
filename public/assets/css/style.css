@@ -1,0 +1,7 @@
+/* Customizações globais */
+@import url("variables.css");
+@import url("custom.css");
+/* Estilos específicos de páginas */
+@import url("pages/home.css");
+@import url("pages/login.css");
+@import url("pages/eventos.css");

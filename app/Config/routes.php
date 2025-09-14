@@ -4,7 +4,7 @@ use App\Controllers\AuthController;
 use App\Controllers\EventController;
 use App\Controllers\UserController;
 use App\Controllers\LoginController;
-
+use App\Controllers\ProfileController;
 
 /** @var Core\Router $router */
 
@@ -50,3 +50,7 @@ $router->post('/eventos/atualizar', [EventController::class, 'update']);
 
 // Excluir evento
 $router->post('/eventos/excluir', [EventController::class, 'delete']);
+
+// Perfil
+$router->get('/perfil', [ProfileController::class, 'view']);
+$router->post('/perfil/atualizar', [ProfileController::class, 'update']);

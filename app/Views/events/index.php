@@ -1,19 +1,16 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Eventos - Sistema de Atléticas</title>
-</head>
-<body>
+<?php 
+$title = "Eventos - Sistema de Atléticas"; 
+ob_start(); 
+?>
+
     <h1>Lista de Eventos</h1>
 
-    <a href="/eventos/novo">Novo Evento</a>
+    <a href="/eventos/novo" class="btn btn-success mb-3">Novo Evento</a>
     <br><br>
 
     <?php if (!empty($eventos)): ?>
-        <table border="1" cellpadding="8" cellspacing="0">
-            <thead>
+        <table class="table table-striped table-bordered">
+            <thead class="table-dark">
                 <tr>
                     <th>ID</th>
                     <th>Categoria</th>
@@ -32,20 +29,24 @@
                     <td><?= htmlspecialchars($evento['periodo']) ?></td>
                     <td><?= htmlspecialchars($evento['status']) ?></td>
                     <td>
-                        <a href="/eventos/editar?id=<?= $evento['id'] ?>">Editar</a>
+                        <a href="/eventos/editar?id=<?= $evento['id'] ?>" class="btn btn-warning btn-sm">Editar</a>
 
 
-                        <form action="/eventos/excluir" method="POST" style="display:inline;">
+                        <form action="/eventos/excluir" method="POST" class="d-inline">>
                             <input type="hidden" name="id" value="<?= $evento['id'] ?>">
-                            <button type="submit" onclick="return confirm('Tem certeza que deseja excluir este evento?')">Excluir</button>
+                            <button class="btn btn-danger btn-sm" type="submit" onclick="return confirm('Tem certeza que deseja excluir este evento?')">Excluir</button>
                         </form>
+
                     </td>
                 </tr>
             <?php endforeach; ?>
             </tbody>
         </table>
     <?php else: ?>
-        <p>Nenhum evento cadastrado ainda.</p>
+        <div class="alert alert-info"">Nenhum evento cadastrado ainda.</div>
     <?php endif; ?>
-</body>
-</html>
+
+<?php 
+$content = ob_get_clean(); 
+include VIEW_PATH . "/layout.php"; 
+?>

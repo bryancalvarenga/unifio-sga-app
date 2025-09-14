@@ -1,26 +1,28 @@
-<!-- View: login -->
-<!-- Formulário de login de usuário -->
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Sistema de Atléticas</title>
-</head>
-<body>
-    <!-- O formulário envia dados via POST para /login -->
-    <h1>Login</h1>
+<?php 
+$title = "Login - Sistema de Atléticas"; 
+ob_start(); 
+?>
 
-  <form method="POST" action="/login">
-      <label for="email">E-mail:</label>
-      <input type="email" name="email" required><br><br>
+<h1 class="mb-4">Login</h1>
 
-      <label for="senha">Senha:</label>
-      <input type="password" name="senha" required><br><br>
+<form method="POST" action="/login" class="row g-3">
+    <div class="col-12">
+        <label for="email" class="form-label">E-mail</label>
+        <input type="email" id="email" name="email" class="form-control" required>
+    </div>
 
-      <button type="submit">Entrar</button>
-  </form>
+    <div class="col-12">
+        <label for="senha" class="form-label">Senha</label>
+        <input type="password" id="senha" name="senha" class="form-control" required>
+    </div>
 
-  <p><a href="/register">Não tem conta? Cadastre-se</a></p>
-</body>
-</html>
+    <div class="col-12">
+        <button type="submit" class="btn btn-primary">🔐 Entrar</button>
+        <a href="/register" class="btn btn-link">Não tem conta? Cadastre-se</a>
+    </div>
+</form>
+
+<?php 
+$content = ob_get_clean(); 
+include VIEW_PATH . "/layout.php"; 
+?>
