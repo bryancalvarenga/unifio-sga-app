@@ -10,6 +10,7 @@ use PDOException;
 - Representa um evento no sistema e fornece métodos para interagir com a tabela 'events' do DB
 */
 class Event {
+    
     private $db; // Conexão DB
 
     public function __construct(PDO $db) {
@@ -17,19 +18,23 @@ class Event {
     }
 
     // Cria um novo evento
-    public function create($usuario_id, $categoria, $subtipo_esportivo, $subtipo_nao_esportivo, $finalidade, $data_evento, $periodo, $aberto_ao_publico, $estimativa_participantes, $materiais_necessarios, $usa_materiais_instituicao, $responsavel, $arbitro = null, $lista_participantes_path = null, $observacoes = null) {
-
+    public function create(
+            $usuario_id, $categoria, $subtipo_esportivo, $subtipo_nao_esportivo, 
+            $finalidade, $data_evento, $periodo, $aberto_ao_publico, 
+            $estimativa_participantes, $materiais_necessarios, $usa_materiais_instituicao, 
+            $responsavel, $arbitro = null, $lista_participantes_path = null, $observacoes = null
+        ) {
         try {
             $sql = "INSERT INTO events 
                 (usuario_id, categoria, subtipo_esportivo, subtipo_nao_esportivo, finalidade, 
                 data_evento, periodo, aberto_ao_publico, estimativa_participantes, 
                 materiais_necessarios, usa_materiais_instituicao, responsavel, 
-                arbitro, lista_participantes_path, observacoes)
+                arbitro, lista_participantes_path, observacoes, status)
                 VALUES
                 (:usuario_id, :categoria, :subtipo_esportivo, :subtipo_nao_esportivo, :finalidade, 
                 :data_evento, :periodo, :aberto_ao_publico, :estimativa_participantes, 
                 :materiais_necessarios, :usa_materiais_instituicao, :responsavel, 
-                :arbitro, :lista_participantes_path, :observacoes)";
+                :arbitro, :lista_participantes_path, :observacoes, 'PENDENTE')";
 
             $stmt = $this->db->prepare($sql);
 
@@ -53,16 +58,22 @@ class Event {
         } catch (PDOException $e) {
             if ($e->getCode() == 23000) {
                 die("Já existe um evento cadastrado para essa data e período.");
-            } die ("Erro no create(): " . $e->getMessage());
+            } 
+            die("Erro no create(): " . $e->getMessage());
         }
     }
     
     // Lista todos os eventos
-        public function getAll(){
-        $sql = "SELECT * FROM events ORDER BY data_evento DESC";
-        $stmt = $this->db->query($sql);
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    public function getAll() {
+        $sql = "
+            SELECT e.*, u.nome AS criador_nome
+            FROM events e
+            LEFT JOIN users u ON u.id = e.usuario_id
+            ORDER BY e.data_evento ASC, e.periodo ASC
+        ";
+        return $this->db->query($sql)->fetchAll(PDO::FETCH_ASSOC); // ✅ corrigido para $this->db
     }
+
 
 
     // Busca um evento pelo ID

@@ -7,12 +7,20 @@ use App\Models\Event;
 class EventController {
 
     public function index() {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+
+        $tipo = $_SESSION['tipo_participacao'] ?? null;
+        $usuarioId = $_SESSION['user_id'] ?? 0;
+
         $pdo = Database::getConnection();
-        $eventModel = new Event($pdo);
+        $eventModel = new Event($pdo); // ✅ agora pode chamar simples
         $eventos = $eventModel->getAll();
 
         require VIEW_PATH . '/events/index.php';
     }
+
 
     /* -------------------------
         EVENTOS ESPORTIVOS
@@ -346,7 +354,11 @@ class EventController {
         // Pode participar? ALUNO/COMUNIDADE; você pode manter a regra de "aberto_ao_publico"
         $usuarioPodeParticipar = in_array($tipo, ['ALUNO', 'COMUNIDADE']) && (int)$evento['aberto_ao_publico'] === 1;
 
-        require VIEW_PATH . "/events/show.php";
+        if (isset($_GET['modal'])) {
+            require VIEW_PATH . "/partials/show-modal.php"; 
+        } else {
+            require VIEW_PATH . "/events/show.php"; 
+        }
     }
 
     public function changeStatus() {

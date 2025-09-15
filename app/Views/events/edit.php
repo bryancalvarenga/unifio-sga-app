@@ -98,6 +98,7 @@ ob_start();
         <div class="col-md-6">
             <label class="form-label">Status</label>
             <select name="status" class="form-select">
+                <option value="PENDENTE"  <?= $evento['status'] === 'PENDENTE' ? 'selected' : '' ?>>Pendente</option>
                 <option value="AGENDADO"  <?= $evento['status'] === 'AGENDADO' ? 'selected' : '' ?>>Agendado</option>
                 <option value="APROVADO"  <?= $evento['status'] === 'APROVADO' ? 'selected' : '' ?>>Aprovado</option>
                 <option value="REJEITADO" <?= $evento['status'] === 'REJEITADO' ? 'selected' : '' ?>>Rejeitado</option>
