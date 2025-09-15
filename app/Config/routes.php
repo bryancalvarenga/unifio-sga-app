@@ -1,6 +1,5 @@
 <?php 
 use App\Controllers\AuthController;
-use App\Controllers\LoginController;
 use App\Controllers\ProfileController;
 use App\Controllers\EventController;
 use App\Controllers\ParticipantController;
@@ -20,9 +19,9 @@ $router->get('/register', [AuthController::class,'registerForm']);
 $router->post('/register', [AuthController::class,'register']);
 
 // Login / Logout
-$router->get('/login', [LoginController::class, 'loginForm']);
-$router->post('/login', [LoginController::class, 'login']);
-$router->get('/logout', [LoginController::class, 'logout']);
+$router->get('/login', [AuthController::class, 'loginForm']);
+$router->post('/login', [AuthController::class, 'login']);
+$router->get('/logout', [AuthController::class, 'logout']);
 
 /* -------------------------
    PERFIL DO USUÁRIO

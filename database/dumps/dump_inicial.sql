@@ -1,1 +1,0 @@
-/* Backups e exportações do banco de dados */
