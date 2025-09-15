@@ -3,44 +3,67 @@ $title = "Registro - Sistema de Atléticas";
 ob_start(); 
 ?>
 
-<h1 class="mb-4">Registro de Usuário</h1>
-
-<form method="POST" action="/register" class="row g-3">
-    <div class="col-12">
-        <label for="nome" class="form-label">Nome completo</label>
-        <input type="text" id="nome" name="nome" class="form-control" required>
+<div class="d-flex justify-content-center align-items-center min-vh-100 bg-light">
+  <div class="card shadow-sm p-4" style="max-width: 420px; width: 100%; border-radius: 12px;">
+    
+    <!-- Título -->
+    <div class="text-center mb-4">
+      <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center mx-auto mb-2" style="width: 50px; height: 50px; font-size: 22px;">
+        <i class="bi bi-person-plus"></i>
+      </div>
+      <h4 class="fw-bold mb-0">Criar Conta</h4>
+      <small class="text-muted">Cadastre-se no sistema UNIFIO</small>
     </div>
 
-    <div class="col-md-6">
-        <label for="email" class="form-label">E-mail</label>
-        <input type="email" id="email" name="email" class="form-control" required>
-    </div>
+    <!-- Formulário -->
+    <form method="POST" action="/register" class="row g-3">
+      
+      <div class="col-12">
+        <label for="nome" class="form-label">Nome Completo</label>
+        <input type="text" id="nome" name="nome" class="form-control" placeholder="Digite seu nome completo" required>
+      </div>
 
-    <div class="col-md-6">
+      <div class="col-12">
+        <label for="email" class="form-label">Email</label>
+        <input type="email" id="email" name="email" class="form-control" placeholder="seu.email@unifio.edu.br" required>
+      </div>
+
+      <div class="col-12">
         <label for="telefone" class="form-label">Telefone</label>
-        <input type="text" id="telefone" name="telefone" class="form-control">
-    </div>
+        <input type="text" id="telefone" name="telefone" class="form-control" placeholder="(11) 99999-9999">
+      </div>
 
-    <div class="col-md-6">
-        <label for="senha" class="form-label">Senha</label>
-        <input type="password" id="senha" name="senha" class="form-control" required>
-    </div>
-
-    <div class="col-md-6">
-        <label for="tipo_participacao" class="form-label">Tipo de participação</label>
+      <div class="col-12">
+        <label for="tipo_participacao" class="form-label">Tipo de Participação</label>
         <select id="tipo_participacao" name="tipo_participacao" class="form-select" required>
-            <option value="ATLETICA">Atlética</option>
-            <option value="ALUNO">Aluno</option>
-            <option value="PROFESSOR">Professor</option>
-            <option value="COMUNIDADE">Comunidade</option>
+          <option value="">Selecione seu tipo</option>
+          <option value="ATLETICA">Atlética</option>
+          <option value="ALUNO">Aluno</option>
+          <option value="PROFESSOR">Professor</option>
+          <option value="COMUNIDADE">Comunidade</option>
         </select>
-    </div>
+      </div>
 
-    <div class="col-12">
-        <button type="submit" class="btn btn-success">📝 Registrar</button>
-        <a href="/login" class="btn btn-link">Já tem conta? Faça login</a>
-    </div>
-</form>
+      <div class="col-12">
+        <label for="senha" class="form-label">Senha</label>
+        <input type="password" id="senha" name="senha" class="form-control" placeholder="Digite sua senha" required>
+      </div>
+
+      <div class="col-12">
+        <label for="senha_confirm" class="form-label">Confirmar Senha</label>
+        <input type="password" id="senha_confirm" name="senha_confirm" class="form-control" placeholder="Confirme sua senha" required>
+      </div>
+
+      <div class="col-12 d-grid">
+        <button type="submit" class="btn btn-primary">Cadastrar</button>
+      </div>
+
+      <div class="col-12 text-center">
+        <a href="/login" class="text-decoration-none">↩ Voltar ao Login</a>
+      </div>
+    </form>
+  </div>
+</div>
 
 <?php 
 $content = ob_get_clean(); 

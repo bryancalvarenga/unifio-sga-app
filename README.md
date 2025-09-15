@@ -8,6 +8,9 @@ O sistema permite que **alunos, professores, atléticas e comunidade externa** f
 ## 🚀 Tecnologias Utilizadas
 - **PHP 8**
 - **MySQL**
+- **Bootstrap**
+- **JavaScript**
+- **HTML5 & CSS3**
 - **Composer** (gerenciador de dependências)
 - **Dotenv** (configurações seguras via `.env`)
 - **PHPMailer** (envio de notificações por e-mail)
