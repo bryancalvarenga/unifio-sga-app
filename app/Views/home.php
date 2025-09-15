@@ -22,14 +22,14 @@ ob_start();
     <?php if ($tipo === 'ATLETICA'): ?>
         <h2>Menu Atlética</h2>
         <ul>
-          <li><a href="/eventos/novo">Criar Evento Esportivo</a></li>
+          <li><a href="/eventos/esportivo/novo">Criar Evento Esportivo</a></li>
           <li><a href="/eventos">Gerenciar meus eventos</a></li>
         </ul>
 
     <?php elseif ($tipo === 'PROFESSOR'): ?>
         <h2>Menu Professor</h2>
         <ul>
-          <li><a href="/eventos/novo">➕ Criar Evento Acadêmico</a></li>
+          <li><a href="/eventos/nao-esportivo/novo">➕ Criar Evento Acadêmico</a></li>
           <li><a href="/eventos">Meus eventos</a></li>
         </ul>
 
@@ -45,6 +45,12 @@ ob_start();
         <ul>
           <li><a href="/eventos">Visualizar eventos públicos</a></li>
         </ul>
+
+    <?php elseif ($tipo === 'COORDENACAO'): ?>
+    <h2>Menu Coordenação</h2>
+    <ul>
+      <li><a href="/eventos">Aprovar/Rejeitar eventos</a></li>
+    </ul>
 
     <?php else: ?>
         <p>Tipo de usuário não reconhecido.</p>

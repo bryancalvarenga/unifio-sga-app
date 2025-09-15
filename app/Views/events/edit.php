@@ -94,16 +94,19 @@ ob_start();
         <input type="text" name="arbitro" value="<?= htmlspecialchars($evento['arbitro'] ?? '') ?>" class="form-control">
     </div>
 
-    <div class="col-md-6">
-        <label class="form-label">Status</label>
-        <select name="status" class="form-select">
-            <option value="AGENDADO"  <?= $evento['status'] === 'AGENDADO' ? 'selected' : '' ?>>Agendado</option>
-            <option value="APROVADO"  <?= $evento['status'] === 'APROVADO' ? 'selected' : '' ?>>Aprovado</option>
-            <option value="REJEITADO" <?= $evento['status'] === 'REJEITADO' ? 'selected' : '' ?>>Rejeitado</option>
-            <option value="CANCELADO" <?= $evento['status'] === 'CANCELADO' ? 'selected' : '' ?>>Cancelado</option>
-            <option value="FINALIZADO"<?= $evento['status'] === 'FINALIZADO' ? 'selected' : '' ?>>Finalizado</option>
-        </select>
-    </div>
+    <?php if (isset($_SESSION['tipo_participacao']) && $_SESSION['tipo_participacao'] === 'COORDENACAO'): ?>
+        <div class="col-md-6">
+            <label class="form-label">Status</label>
+            <select name="status" class="form-select">
+                <option value="AGENDADO"  <?= $evento['status'] === 'AGENDADO' ? 'selected' : '' ?>>Agendado</option>
+                <option value="APROVADO"  <?= $evento['status'] === 'APROVADO' ? 'selected' : '' ?>>Aprovado</option>
+                <option value="REJEITADO" <?= $evento['status'] === 'REJEITADO' ? 'selected' : '' ?>>Rejeitado</option>
+                <option value="CANCELADO" <?= $evento['status'] === 'CANCELADO' ? 'selected' : '' ?>>Cancelado</option>
+                <option value="FINALIZADO"<?= $evento['status'] === 'FINALIZADO' ? 'selected' : '' ?>>Finalizado</option>
+            </select>
+        </div>
+    <?php endif; ?>
+
 
     <div class="col-12">
         <label class="form-label">Observações</label>

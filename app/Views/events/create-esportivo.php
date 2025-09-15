@@ -1,37 +1,21 @@
 <?php 
-$title = "Criar Evento - Sistema de Atléticas"; 
+$title = "Criar Evento Esportivo - Sistema de Atléticas"; 
 ob_start(); 
 ?>
 
-<h1 class="mb-4">Criar Novo Evento</h1>
+<h1 class="mb-4">Criar Novo Evento Esportivo</h1>
 
-<form method="POST" action="/eventos/criar" class="row g-3">
+<form method="POST" action="/eventos/esportivo/criar" class="row g-3">
 
-    <div class="col-md-6">
-        <label class="form-label">Categoria</label>
-        <select name="categoria" class="form-select" required>
-            <option value="ESPORTIVO">Esportivo</option>
-            <option value="NAO_ESPORTIVO">Não Esportivo</option>
-        </select>
-    </div>
+    <input type="hidden" name="categoria" value="ESPORTIVO">
 
     <div class="col-md-6">
         <label class="form-label">Subtipo Esportivo</label>
-        <select name="subtipo_esportivo" class="form-select">
-            <option value="">-- Se aplicável --</option>
+        <select name="subtipo_esportivo" class="form-select" required>
+            <option value="">-- Selecione --</option>
             <option value="FUTSAL">Futsal</option>
             <option value="VOLEI">Vôlei</option>
             <option value="BASQUETE">Basquete</option>
-        </select>
-    </div>
-
-    <div class="col-md-6">
-        <label class="form-label">Subtipo Não Esportivo</label>
-        <select name="subtipo_nao_esportivo" class="form-select">
-            <option value="">-- Se aplicável --</option>
-            <option value="PALESTRA">Palestra</option>
-            <option value="WORKSHOP">Workshop</option>
-            <option value="FORMATURA">Formatura</option>
         </select>
     </div>
 
