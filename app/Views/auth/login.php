@@ -3,15 +3,15 @@ $title = "Login - Sistema de Atléticas";
 ob_start(); 
 ?>
 
-<div class="d-flex justify-content-center align-items-center" style="min-height: 80vh;">
-  <div class="card shadow p-4" style="max-width: 400px; width: 100%;">
+<div class="d-flex justify-content-center align-items-center auth-login-container">
+  <div class="card shadow p-4 auth-login-content">
     
     <!-- Logo -->
     <div class="text-center mb-3">
       <img src="/assets/img/unifio-logo-blue.png" alt="Logo UNIFIO" width="100">
     </div>
 
-    <h4 class="text-center mb-4 fw-bold">Sistema de Agendamento</h4>
+    <h4 class="text-center mb-4 title-auth">Agendamento da Quadra Poliesportiva</h4>
 
     <!-- Formulário -->
     <form method="POST" action="/login" class="row g-3">
@@ -36,7 +36,7 @@ ob_start();
 
       <div class="col-12 text-center">
         <small class="text-muted">Não tem uma conta?
-          <a href="/register" class="fw-semibold">Cadastrar</a>
+          <a href="/register" class="text-decoration-none">Cadastrar</a>
         </small>
       </div>
     </form>

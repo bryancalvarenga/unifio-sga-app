@@ -1,0 +1,5 @@
+.title-auth {
+    font-size: 1rem;
+    color: var(--auth-font-color);
+    text-wrap: nowrap;
+}

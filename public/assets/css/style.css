@@ -1,7 +1,14 @@
-/* Customizações globais */
-@import url("variables.css");
-@import url("custom.css");
+/* Estilos Reutilizados */
+@import url("components.css");
 /* Estilos específicos de páginas */
-@import url("pages/home.css");
+@import url("pages/register.css");
 @import url("pages/login.css");
-@import url("pages/eventos.css");
+@import url("pages/home.css");
+@import url("partials/calendar.css");
+
+:root {
+    --auth-font-color: rgb(99 114 138);
+    --unifio-color-blue: #004998;
+    --unifio-color-orange: #ED8A26;
+    --unifio-color-white: #FFFFFF;
+}

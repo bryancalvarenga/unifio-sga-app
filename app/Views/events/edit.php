@@ -1,130 +1,153 @@
-<?php 
-$title = "Editar Evento - Sistema de Atléticas"; 
-ob_start(); 
+<?php
+use Core\Database;
+
+// aqui estava $_SESSION['user']['role'] === 'COORDENADOR'
+$isCoordinator = ($_SESSION['tipo_participacao'] ?? '') === 'COORDENACAO';
+
+$title = $isCoordinator 
+    ? "Analisar Solicitação - Sistema de Atléticas" 
+    : "Editar Evento - Sistema de Atléticas";
+
+ob_start();
+
+
+/* Carrega evento */
+$eventId = $_GET['id'] ?? null;
+$pdo = Database::getConnection();
+$stmt = $pdo->prepare("SELECT * FROM events WHERE id = ?");
+$stmt->execute([$eventId]);
+$event = $stmt->fetch(PDO::FETCH_ASSOC);
+
+if (!$event) {
+  echo "<div class='alert alert-danger'>Evento não encontrado</div>";
+  return;
+}
 ?>
+<div class="container-xxl py-3">
 
-<h1 class="mb-4">Editar Evento</h1>
+  <!-- Cabeçalho -->
+  <div class="d-flex align-items-center gap-2 mb-3">
+    <i class="bi <?= $isCoordinator ? 'bi-search text-danger' : 'bi-pencil-square text-primary' ?> fs-3"></i>
+    <h2 class="m-0"><?= $isCoordinator ? "Analisar Solicitação" : "Editar Evento" ?></h2>
+  </div>
+  <p class="text-muted">
+    <?= $isCoordinator 
+        ? "Revise as informações do evento e defina o status da solicitação." 
+        : "Modifique as informações do seu evento. Alterações em eventos já aprovados podem requerer nova aprovação." ?>
+  </p>
 
-<?php if ($evento): ?>
-<form method="POST" action="/eventos/atualizar" class="row g-3">
-    <input type="hidden" name="id" value="<?= htmlspecialchars($evento['id']) ?>">
+  <!-- ALERTA para usuários normais -->
+  <?php if (!$isCoordinator): ?>
+    <div class="alert alert-warning small">
+      <i class="bi bi-exclamation-triangle"></i>
+      Atenção: alterações em eventos aprovados podem precisar de nova aprovação da coordenação.
+    </div>
+  <?php endif; ?>
 
-    <div class="col-md-6">
-        <label class="form-label">Categoria</label>
-        <select name="categoria" class="form-select" required>
-            <option value="ESPORTIVO" <?= $evento['categoria'] === 'ESPORTIVO' ? 'selected' : '' ?>>Esportivo</option>
-            <option value="NAO_ESPORTIVO" <?= $evento['categoria'] === 'NAO_ESPORTIVO' ? 'selected' : '' ?>>Não Esportivo</option>
-        </select>
+  <div class="row g-4">
+    <!-- CALENDÁRIO -->
+    <div class="col-12 col-lg-6">
+      <?php include VIEW_PATH . "/partials/calendar.php"; ?>
     </div>
 
-    <div class="col-md-6">
-        <label class="form-label">Subtipo Esportivo</label>
-        <select name="subtipo_esportivo" class="form-select">
-            <option value="">-- Se aplicável --</option>
-            <option value="FUTSAL"   <?= $evento['subtipo_esportivo'] === 'FUTSAL' ? 'selected' : '' ?>>Futsal</option>
-            <option value="VOLEI"    <?= $evento['subtipo_esportivo'] === 'VOLEI' ? 'selected' : '' ?>>Vôlei</option>
-            <option value="BASQUETE" <?= $evento['subtipo_esportivo'] === 'BASQUETE' ? 'selected' : '' ?>>Basquete</option>
-        </select>
-    </div>
+    <!-- FORM DETALHES -->
+    <div class="col-12 col-lg-6">
+      <form method="POST" action="/eventos/atualizar" class="row g-3">
+        <input type="hidden" name="id" value="<?= $event['id'] ?>">
+        <input type="hidden" name="categoria" value="<?= $event['categoria'] ?>">
+        <input type="hidden" name="data_evento" id="data_evento" value="<?= $event['data_evento'] ?>">
+        <input type="hidden" name="periodo" id="periodo" value="<?= $event['periodo'] ?>">
 
-    <div class="col-md-6">
-        <label class="form-label">Subtipo Não Esportivo</label>
-        <select name="subtipo_nao_esportivo" class="form-select">
-            <option value="">-- Se aplicável --</option>
-            <option value="PALESTRA"  <?= $evento['subtipo_nao_esportivo'] === 'PALESTRA' ? 'selected' : '' ?>>Palestra</option>
-            <option value="WORKSHOP"  <?= $evento['subtipo_nao_esportivo'] === 'WORKSHOP' ? 'selected' : '' ?>>Workshop</option>
-            <option value="FORMATURA" <?= $evento['subtipo_nao_esportivo'] === 'FORMATURA' ? 'selected' : '' ?>>Formatura</option>
-        </select>
-    </div>
-
-    <div class="col-md-6">
-        <label class="form-label">Finalidade</label>
-        <select name="finalidade" class="form-select">
-            <option value="TREINO"      <?= $evento['finalidade'] === 'TREINO' ? 'selected' : '' ?>>Treino</option>
-            <option value="CAMPEONATO"  <?= $evento['finalidade'] === 'CAMPEONATO' ? 'selected' : '' ?>>Campeonato</option>
-            <option value="OUTRO"       <?= $evento['finalidade'] === 'OUTRO' ? 'selected' : '' ?>>Outro</option>
-        </select>
-    </div>
-
-    <div class="col-md-6">
-        <label class="form-label">Data</label>
-        <input type="date" name="data_evento" value="<?= htmlspecialchars($evento['data_evento']) ?>" class="form-control" required>
-    </div>
-
-    <div class="col-md-6">
-        <label class="form-label">Período</label>
-        <select name="periodo" class="form-select" required>
-            <option value="P1" <?= $evento['periodo'] === 'P1' ? 'selected' : '' ?>>P1 (19:15 - 20:55)</option>
-            <option value="P2" <?= $evento['periodo'] === 'P2' ? 'selected' : '' ?>>P2 (21:10 - 22:50)</option>
-        </select>
-    </div>
-
-    <div class="col-md-6">
-        <label class="form-label">Aberto ao público</label><br>
-        <input type="hidden" name="aberto_ao_publico" value="0">
-        <input type="checkbox" name="aberto_ao_publico" value="1" 
-               <?= !empty($evento['aberto_ao_publico']) ? 'checked' : '' ?>> Sim
-    </div>
-
-    <div class="col-md-6">
-        <label class="form-label">Estimativa de participantes</label>
-        <input type="number" name="estimativa_participantes" 
-               value="<?= htmlspecialchars($evento['estimativa_participantes'] ?? '') ?>" class="form-control">
-    </div>
-
-    <div class="col-12">
-        <label class="form-label">Materiais necessários</label>
-        <textarea name="materiais_necessarios" class="form-control"><?= htmlspecialchars($evento['materiais_necessarios'] ?? '') ?></textarea>
-    </div>
-
-    <div class="col-md-6">
-        <label class="form-label">Usa materiais da instituição</label><br>
-        <input type="hidden" name="usa_materiais_instituicao" value="0">
-        <input type="checkbox" name="usa_materiais_instituicao" value="1" 
-               <?= !empty($evento['usa_materiais_instituicao']) ? 'checked' : '' ?>> Sim
-    </div>
-
-    <div class="col-md-6">
-        <label class="form-label">Responsável</label>
-        <input type="text" name="responsavel" value="<?= htmlspecialchars($evento['responsavel']) ?>" class="form-control" required>
-    </div>
-
-    <div class="col-md-6">
-        <label class="form-label">Árbitro</label>
-        <input type="text" name="arbitro" value="<?= htmlspecialchars($evento['arbitro'] ?? '') ?>" class="form-control">
-    </div>
-
-    <?php if (isset($_SESSION['tipo_participacao']) && $_SESSION['tipo_participacao'] === 'COORDENACAO'): ?>
+        <!-- Tipo / Esporte -->
         <div class="col-md-6">
-            <label class="form-label">Status</label>
-            <select name="status" class="form-select">
-                <option value="PENDENTE"  <?= $evento['status'] === 'PENDENTE' ? 'selected' : '' ?>>Pendente</option>
-                <option value="AGENDADO"  <?= $evento['status'] === 'AGENDADO' ? 'selected' : '' ?>>Agendado</option>
-                <option value="APROVADO"  <?= $evento['status'] === 'APROVADO' ? 'selected' : '' ?>>Aprovado</option>
-                <option value="REJEITADO" <?= $evento['status'] === 'REJEITADO' ? 'selected' : '' ?>>Rejeitado</option>
-                <option value="CANCELADO" <?= $evento['status'] === 'CANCELADO' ? 'selected' : '' ?>>Cancelado</option>
-                <option value="FINALIZADO"<?= $evento['status'] === 'FINALIZADO' ? 'selected' : '' ?>>Finalizado</option>
-            </select>
+          <label class="form-label">Tipo *</label>
+          <select name="finalidade" class="form-select" required>
+            <option value="TREINO" <?= $event['finalidade']==='TREINO'?'selected':'' ?>>Treino</option>
+            <option value="CAMPEONATO" <?= $event['finalidade']==='CAMPEONATO'?'selected':'' ?>>Campeonato</option>
+            <option value="OUTRO" <?= $event['finalidade']==='OUTRO'?'selected':'' ?>>Outro</option>
+          </select>
         </div>
-    <?php endif; ?>
+        <div class="col-md-6">
+          <label class="form-label">Esporte *</label>
+          <select name="subtipo_esportivo" class="form-select" required>
+            <option value="FUTSAL" <?= $event['subtipo_esportivo']==='FUTSAL'?'selected':'' ?>>Futsal</option>
+            <option value="VOLEI" <?= $event['subtipo_esportivo']==='VOLEI'?'selected':'' ?>>Vôlei</option>
+            <option value="BASQUETE" <?= $event['subtipo_esportivo']==='BASQUETE'?'selected':'' ?>>Basquete</option>
+          </select>
+        </div>
 
+        <!-- Materiais -->
+        <div class="col-12">
+          <label class="form-label">Materiais esportivos</label>
+          <div class="row row-cols-2 g-2">
+            <?php foreach (['Bolas de Futsal','Coletes','Rede de Vôlei','Cronômetro','Bolas de Vôlei','Cones','Apito'] as $m): ?>
+              <div class="col">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" name="materiais[]" value="<?= $m ?>" 
+                         id="mat-<?= md5($m) ?>" <?= str_contains($event['materiais_necessarios'] ?? '', $m)?'checked':'' ?>>
+                  <label class="form-check-label" for="mat-<?= md5($m) ?>"><?= $m ?></label>
+                </div>
+              </div>
+            <?php endforeach; ?>
+          </div>
+        </div>
 
-    <div class="col-12">
-        <label class="form-label">Observações</label>
-        <textarea name="observacoes" class="form-control"><?= htmlspecialchars($evento['observacoes'] ?? '') ?></textarea>
+        <!-- Campos básicos -->
+        <div class="col-md-6">
+          <label class="form-label">Aberto ao público</label><br>
+          <input type="hidden" name="aberto_ao_publico" value="0">
+          <div class="form-check form-switch d-inline-block">
+            <input class="form-check-input" type="checkbox" name="aberto_ao_publico" value="1" <?= $event['aberto_ao_publico']?'checked':'' ?>>
+            <label class="form-check-label">Sim</label>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <label class="form-label">Estimativa de participantes</label>
+          <input type="number" name="estimativa_participantes" class="form-control" value="<?= $event['estimativa_participantes'] ?>">
+        </div>
+
+        <div class="col-md-6">
+          <label class="form-label">Responsável *</label>
+          <input type="text" name="responsavel" class="form-control" value="<?= $event['responsavel'] ?>" required>
+        </div>
+
+        <div class="col-md-6">
+          <label class="form-label">Árbitro (opcional)</label>
+          <input type="text" name="arbitro" class="form-control" value="<?= $event['arbitro'] ?>">
+        </div>
+
+        <div class="col-12">
+          <label class="form-label">Observações</label>
+          <textarea name="observacoes" class="form-control" rows="3"><?= $event['observacoes'] ?></textarea>
+        </div>
+
+        <!-- STATUS -->
+        <?php if ($isCoordinator): ?>
+          <div class="col-12">
+            <label class="form-label">Status *</label>
+            <select name="status" class="form-select" required>
+              <option value="PENDENTE" <?= $event['status']==='PENDENTE'?'selected':'' ?>>Pendente</option>
+              <option value="APROVADO" <?= $event['status']==='APROVADO'?'selected':'' ?>>Aprovado</option>
+              <option value="REJEITADO" <?= $event['status']==='REJEITADO'?'selected':'' ?>>Rejeitado</option>
+            </select>
+          </div>
+        <?php else: ?>
+          <input type="hidden" name="status" value="<?= $event['status'] ?>">
+        <?php endif; ?>
+
+        <!-- BOTÕES -->
+        <div class="col-12 d-flex justify-content-between align-items-center">
+          <a href="/eventos" class="btn btn-light">Cancelar</a>
+          <button type="submit" class="btn <?= $isCoordinator ? 'btn-danger' : 'btn-primary' ?>">
+            <?= $isCoordinator ? 'Salvar Análise' : 'Salvar Alterações' ?>
+          </button>
+        </div>
+      </form>
     </div>
+  </div>
+</div>
 
-    <div class="col-12">
-        <button type="submit" class="btn btn-primary">💾 Salvar alterações</button>
-        <a href="/eventos" class="btn btn-secondary">↩️ Voltar</a>
-    </div>
-</form>
-<?php else: ?>
-    <div class="alert alert-danger">Evento não encontrado.</div>
-    <a href="/eventos" class="btn btn-secondary">↩️ Voltar</a>
-<?php endif; ?>
-
-<?php 
-$content = ob_get_clean(); 
-include VIEW_PATH . "/layout.php"; 
-?>
+<?php
+$content = ob_get_clean();
+include VIEW_PATH . "/layout.php";

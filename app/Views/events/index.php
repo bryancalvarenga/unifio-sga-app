@@ -85,23 +85,29 @@ foreach ($eventos as $evento) {
               data-id="<?= $evento['id'] ?>" 
               data-bs-toggle="modal" 
               data-bs-target="#modalEvento">
-              👁 Ver
+              Ver
             </button>
 
             <?php if ($podeEditarExcluir && $tipo !== 'COORDENACAO'): ?>
-              <a href="/eventos/editar?id=<?= $evento['id'] ?>" class="btn btn-sm btn-info">✏ Editar</a>
+              <a href="/eventos/editar?id=<?= $evento['id'] ?>" class="btn btn-sm btn-info">Editar</a>
               <form action="/eventos/excluir" method="POST" class="d-inline">
                 <input type="hidden" name="id" value="<?= $evento['id'] ?>">
                 <button type="submit" class="btn btn-sm btn-danger"
-                        onclick="return confirm('Tem certeza que deseja excluir este evento?')">🗑 Excluir</button>
+                        onclick="return confirm('Tem certeza que deseja excluir este evento?')">Excluir</button>
               </form>
             <?php endif; ?>
 
             <?php if ($tipo === 'COORDENACAO'): ?>
               <a href="/eventos/editar?id=<?= $evento['id'] ?>" class="btn btn-sm btn-warning">
-                📋 Analisar Solicitação
+                Analisar Solicitação
               </a>
+              <form action="/eventos/excluir" method="POST" class="d-inline">
+                <input type="hidden" name="id" value="<?= $evento['id'] ?>">
+                <button type="submit" class="btn btn-sm btn-danger"
+                        onclick="return confirm('Tem certeza que deseja excluir este evento?')">Excluir</button>
+              </form>
             <?php endif; ?>
+
           </div>
         </div>
       <?php endforeach; ?>

@@ -3,17 +3,15 @@ $title = "Registro - Sistema de Atléticas";
 ob_start(); 
 ?>
 
-<div class="d-flex justify-content-center align-items-center min-vh-100 bg-light">
-  <div class="card shadow-sm p-4" style="max-width: 420px; width: 100%; border-radius: 12px;">
+<div class="d-flex justify-content-center align-items-center min-vh-100">
+  <div class="card shadow-sm p-4 auth-register-content">
     
     <!-- Título -->
-    <div class="text-center mb-4">
-      <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center mx-auto mb-2" style="width: 50px; height: 50px; font-size: 22px;">
-        <i class="bi bi-person-plus"></i>
-      </div>
-      <h4 class="fw-bold mb-0">Criar Conta</h4>
-      <small class="text-muted">Cadastre-se no sistema UNIFIO</small>
+    <div class="text-center mb-3">
+      <img src="/assets/img/unifio-logo-blue.png" alt="Logo UNIFIO" width="100">
     </div>
+
+    <h4 class="text-center mb-4 title-auth">Cadastre-se no Sistema</h4>
 
     <!-- Formulário -->
     <form method="POST" action="/register" class="row g-3">
@@ -59,7 +57,7 @@ ob_start();
       </div>
 
       <div class="col-12 text-center">
-        <a href="/login" class="text-decoration-none">↩ Voltar ao Login</a>
+        <a href="/login" class="text-decoration-none">Voltar ao Login</a>
       </div>
     </form>
   </div>

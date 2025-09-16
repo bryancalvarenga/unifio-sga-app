@@ -1,0 +1,8 @@
+.home-subtitle {
+    color: var(--unifio-color-blue);
+    font-size: 1.5rem;
+}
+
+.home-description {
+    color: var(--auth-font-color);
+}

@@ -293,10 +293,19 @@ class EventController {
         }
 
         $tipo = $_SESSION['tipo_participacao'] ?? null;
+        $ehDono = ($evento['usuario_id'] == $_SESSION['user_id']);
 
-        // Só Atlética ou Professor podem excluir, e apenas os próprios
-        if (!in_array($tipo, ['ATLETICA', 'PROFESSOR']) ||
-            $evento['usuario_id'] != $_SESSION['user_id']) {
+        // Regras de exclusão:
+        // - Atlética pode excluir eventos ESPORTIVOS dela
+        // - Professor pode excluir eventos NÃO ESPORTIVOS dele
+        // - Coordenação pode excluir qualquer evento
+        $podeExcluir = (
+            ($tipo === 'ATLETICA'  && $evento['categoria'] === 'ESPORTIVO'     && $ehDono) ||
+            ($tipo === 'PROFESSOR' && $evento['categoria'] === 'NAO_ESPORTIVO' && $ehDono) ||
+            ($tipo === 'COORDENACAO')
+        );
+
+        if (!$podeExcluir) {
             http_response_code(403);
             echo "Você não tem permissão para excluir este evento.";
             return;
