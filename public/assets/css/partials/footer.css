@@ -1,0 +1,19 @@
+footer {
+    background: rgb(17, 24, 39);
+}
+
+#footer-social-icons {
+    color: rgb(209, 213, 219);
+    width: 18px;
+    height: 18px;
+}
+
+#footer-icons {
+    color: rgb(209, 213, 219);
+    width: 16px;
+    height: 16px;
+}
+
+.footer-text {
+    color: rgb(209, 213, 219);
+}

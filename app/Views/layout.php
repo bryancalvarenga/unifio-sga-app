@@ -13,6 +13,9 @@
   <link rel="stylesheet" href="/assets/css/style.css">
 </head>
 <body>
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest">
+   </script>
   <?php
     // Verifica se é página de autenticação
     $isAuthPage = isset($title) && (
@@ -23,7 +26,7 @@
 
   <?php if (!$isAuthPage): ?>
     <!-- Navbar -->
-    <?php include VIEW_PATH . "/partials/navbar.php"; ?>
+    <?php include VIEW_PATH . "/partials/header.php"; ?>
   <?php endif; ?>
 
   <div class="<?= $isAuthPage ? 'container d-flex justify-content-center align-items-center vh-100' : 'container mt-4' ?>">
@@ -38,7 +41,8 @@
   <!-- Bootstrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-  <!-- Seus scripts -->
-  <script src="/assets/js/app.js"></script>
+  <!-- Scripts -->
+  <script src="/assets/js/app.js">
+  </script>
 </body>
 </html>

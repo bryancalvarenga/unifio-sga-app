@@ -1,0 +1,30 @@
+/* ===== Status Pills ===== */
+.status-pill {
+  display: inline-block;
+  padding: 0.35rem 0.75rem;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  line-height: 1;
+}
+
+/* Cores */
+.status-pill.success {
+  background-color: #d1fae5; /* verde bem claro */
+  color: #065f46; /* verde escuro */
+}
+
+.status-pill.warning {
+  background-color: #fef3c7; /* amarelo claro */
+  color: #92400e; /* amarelo escuro */
+}
+
+.status-pill.danger {
+  background-color: #fee2e2; /* vermelho claro */
+  color: #991b1b; /* vermelho escuro */
+}
+
+.status-pill.secondary {
+  background-color: #e5e7eb; /* cinza claro */
+  color: #374151; /* cinza escuro */
+}

@@ -5,6 +5,10 @@
 @import url("pages/login.css");
 @import url("pages/home.css");
 @import url("partials/calendar.css");
+@import url("partials/footer.css");
+@import url("partials/header.css");
+@import url("partials/show-modal.css");
+@import url("pages/index.css");
 
 :root {
     --auth-font-color: rgb(99 114 138);

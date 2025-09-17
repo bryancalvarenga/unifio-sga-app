@@ -24,96 +24,101 @@ $stmt = $pdo->query("
 $proximosEventos = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
-<div class="container py-4">
-  <h1 class="text-center mb-4">Sistema de Gerenciamento</h1>
-  <h2 class="text-center mb-4 home-subtitle">Quadra Poliesportiva do Centro Universitário de Ourinhos</h2>
-  <p class="text-center home-description">
-    Bem-vindo, <strong><?= htmlspecialchars($nome) ?></strong> (<?= htmlspecialchars($tipo) ?>)! Gerencie seus agendamentos de forma simples e eficiente. Agende eventos esportivos, palestras e muito mais.
+<div class="container py-4 home-wrapper">
+
+  <!-- Título -->
+  <h1 class="home-title">Quadra Poliesportiva</h1>
+  <h2 class="home-subtitle">Centro Universitário de Ourinhos</h2>
+  <p class="home-description">
+    Bem-vindo, <strong><?= htmlspecialchars($nome) ?></strong> (<?= htmlspecialchars($tipo) ?>)! 
+    Gerencie seus agendamentos de forma simples e eficiente. 
+    Agende eventos esportivos, palestras e muito mais.
   </p>
 
-  <div class="row g-4 my-4">
+  <!-- Cards principais -->
+  <div class="row g-4 mb-5">
     <?php if ($tipo === 'ATLETICA'): ?>
-      <!-- Card Evento Esportivo -->
       <div class="col-md-4">
-        <div class="card shadow-sm h-100">
-          <div class="card-body text-center">
-            <i class="bi bi-trophy display-4 text-primary"></i>
-            <h5 class="card-title mt-3">Evento Esportivo</h5>
-            <p class="card-text">Agende treinos e campeonatos na quadra.</p>
-            <a href="/eventos/esportivo/novo" class="btn btn-primary">Acessar</a>
+        <div class="home-card">
+          <div class="home-icon bg-primary-subtle text-primary">
+            <i data-lucide="trophy"></i>
           </div>
+          <h5>Evento Esportivo</h5>
+          <p>Agende treinos e campeonatos na quadra poliesportiva.</p>
+          <a href="/eventos/esportivo/novo" class="btn btn-primary w-100">Acessar</a>
         </div>
       </div>
     <?php elseif ($tipo === 'PROFESSOR'): ?>
-      <!-- Card Evento Não Esportivo -->
       <div class="col-md-4">
-        <div class="card shadow-sm h-100">
-          <div class="card-body text-center">
-            <i class="bi bi-people display-4 text-warning"></i>
-            <h5 class="card-title mt-3">Evento Não Esportivo</h5>
-            <p class="card-text">Solicite a quadra para palestras, workshops e formaturas.</p>
-            <a href="/eventos/nao-esportivo/novo" class="btn btn-warning text-white">Acessar</a>
+        <div class="home-card">
+          <div class="home-icon bg-warning-subtle text-warning">
+            <i data-lucide="presentation"></i>
           </div>
+          <h5>Evento Não Esportivo</h5>
+          <p>Solicite a quadra para palestras, workshops e formaturas.</p>
+          <a href="/eventos/nao-esportivo/novo" class="btn btn-warning w-100 text-white">Acessar</a>
         </div>
       </div>
     <?php elseif ($tipo === 'COORDENACAO'): ?>
-      <!-- Card Aprovação -->
       <div class="col-md-4">
-        <div class="card shadow-sm h-100">
-          <div class="card-body text-center">
-            <i class="bi bi-check2-circle display-4 text-success"></i>
-            <h5 class="card-title mt-3">Gerenciar Eventos</h5>
-            <p class="card-text">Aprove ou rejeite solicitações de eventos.</p>
-            <a href="/eventos" class="btn btn-success">Acessar</a>
+        <div class="home-card">
+          <div class="home-icon bg-success-subtle text-success">
+            <i data-lucide="check-square"></i>
           </div>
+          <h5>Gerenciar Eventos</h5>
+          <p>Aprove ou rejeite solicitações de eventos.</p>
+          <a href="/eventos" class="btn btn-success w-100">Acessar</a>
         </div>
       </div>
     <?php endif; ?>
 
-    <!-- Card Regulamento (sempre visível) -->
+    <!-- Regulamento -->
     <div class="col-md-4">
-      <div class="card shadow-sm h-100">
-        <div class="card-body text-center">
-          <i class="bi bi-file-earmark-text display-4 text-success"></i>
-          <h5 class="card-title mt-3">Regulamento</h5>
-          <p class="card-text">Consulte as regras e diretrizes de uso da quadra.</p>
-          <a href="/docs/regulamento.pdf" target="_blank" class="btn btn-success">Acessar</a>
+      <div class="home-card">
+        <div class="home-icon bg-success-subtle text-success">
+          <i data-lucide="file-text"></i>
         </div>
+        <h5>Regulamento</h5>
+        <p>Consulte as regras e diretrizes de uso da quadra.</p>
+        <a href="/docs/regulamento.pdf" target="_blank" class="btn btn-outline-success w-100">Acessar</a>
       </div>
     </div>
   </div>
 
-  <!-- Informações Institucionais -->
-  <div class="card shadow-sm my-4">
+  <!-- Informações institucionais -->
+  <div class="home-info card border-0 shadow-sm mb-5">
     <div class="card-body">
-      <h5 class="card-title"><i class="bi bi-building"></i> Informações Institucionais</h5>
+      <h5 class="info-title"><i data-lucide="building" class="me-2"></i> Informações Institucionais</h5>
       <div class="row mt-3">
-        <div class="col-md-6">
-          <p><i class="bi bi-geo-alt"></i> Rodovia BR 153, Km 338+420m<br>Bairro Água do Cateto, Ourinhos-SP</p>
-          <p><i class="bi bi-telephone"></i> (14) 3302-6400</p>
+        <div class="col-md-6 mb-3">
+          <p><i data-lucide="map-pin" class="me-2"></i> Rodovia BR 153, Km 338+420m<br>Bairro Água do Cateto, Ourinhos-SP</p>
+          <p><i data-lucide="phone" class="me-2"></i> (14) 3302-6400</p>
         </div>
         <div class="col-md-6">
-          <p><i class="bi bi-envelope"></i> email@unifio.edu.br</p>
-          <p><i class="bi bi-whatsapp"></i> (14) 99999-9999</p>
+          <p><i data-lucide="mail" class="me-2"></i> email@unifio.edu.br</p>
+          <p><i data-lucide="message-circle" class="me-2"></i> (14) 99999-9999</p>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Próximos Eventos -->
-  <div class="card shadow-sm my-4">
+  <!-- Próximos eventos -->
+  <div class="home-events card border-0 shadow-sm">
     <div class="card-body">
-      <h5 class="card-title"><i class="bi bi-calendar-event"></i> Próximos Eventos</h5>
+      <h5 class="info-title"><i data-lucide="calendar" class="me-2"></i> Próximos Eventos</h5>
       <?php if ($proximosEventos): ?>
-        <ul class="list-group list-group-flush">
+        <ul class="list-unstyled mt-3">
           <?php foreach ($proximosEventos as $ev): ?>
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-              <span>
-                <?= htmlspecialchars($ev['finalidade'] ?: $ev['subtipo_esportivo'] ?: $ev['subtipo_nao_esportivo']) ?>
-                - <?= htmlspecialchars($ev['categoria']) ?> |
-                <?= htmlspecialchars($ev['data_evento']) ?> <?= htmlspecialchars($ev['periodo']) ?>
-              </span>
-              <span class="badge 
+            <li class="event-item d-flex justify-content-between align-items-center">
+              <div>
+                <span class="event-title">
+                  <?= htmlspecialchars($ev['finalidade'] ?: $ev['subtipo_esportivo'] ?: $ev['subtipo_nao_esportivo']) ?>
+                </span>
+                <div class="event-meta text-muted small">
+                  <?= date('d/m/Y', strtotime($ev['data_evento'])) ?> – <?= htmlspecialchars($ev['periodo']) ?>
+                </div>
+              </div>
+              <span class="badge rounded-pill 
                 <?= $ev['status']==='APROVADO'?'bg-success':
                     ($ev['status']==='REJEITADO'?'bg-danger':
                     ($ev['status']==='CANCELADO'?'bg-warning text-dark':'bg-secondary')) ?>">
@@ -122,7 +127,7 @@ $proximosEventos = $stmt->fetchAll(PDO::FETCH_ASSOC);
             </li>
           <?php endforeach; ?>
         </ul>
-        <div class="text-center mt-3">
+        <div class="text-center mt-4">
           <a href="/eventos" class="btn btn-outline-primary">Ver Todos os Eventos</a>
         </div>
       <?php else: ?>
@@ -131,6 +136,7 @@ $proximosEventos = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </div>
   </div>
 </div>
+
 
 <?php 
 $content = ob_get_clean(); 

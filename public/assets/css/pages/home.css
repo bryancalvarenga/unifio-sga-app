@@ -1,8 +1,92 @@
+/* ===== Títulos ===== */
+.home-title {
+  font-weight: 700;
+  color: #0d6efd;
+  text-align: center;
+}
 .home-subtitle {
-    color: var(--unifio-color-blue);
-    font-size: 1.5rem;
+  text-align: center;
+  color: #6c757d;
+  font-size: 1.2rem;
+}
+.home-description {
+  text-align: center;
+  color: #6c757d;
+  max-width: 700px;
+  margin: 0 auto 2rem auto;
 }
 
-.home-description {
-    color: var(--auth-font-color);
+/* ===== Cards principais ===== */
+.home-card {
+  background: #fff;
+  border: 1px solid #e9ecef;
+  border-radius: 12px;
+  padding: 2rem 1.5rem;
+  text-align: center;
+  height: 100%;
+  transition: all 0.2s ease-in-out;
+}
+.home-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+}
+.home-card h5 {
+  margin-top: 1rem;
+  font-weight: 600;
+}
+.home-card p {
+  font-size: 0.95rem;
+  color: #6c757d;
+}
+
+/* Ícone redondo destacado */
+.home-icon {
+  width: 64px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  margin: 0 auto;
+  font-size: 1.5rem;
+}
+.home-icon i {
+  width: 28px;
+  height: 28px;
+}
+
+/* ===== Informações Institucionais ===== */
+.home-info .info-title {
+  font-weight: 600;
+  color: #212529;
+}
+.home-info p {
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+}
+.home-info i {
+  width: 18px;
+  height: 18px;
+  margin-right: 6px;
+  color: #0d6efd;
+}
+
+/* ===== Próximos Eventos ===== */
+.home-events .info-title {
+  font-weight: 600;
+  color: #212529;
+}
+.event-item {
+  padding: 0.75rem 0;
+  border-bottom: 1px solid #e9ecef;
+}
+.event-item:last-child {
+  border-bottom: none;
+}
+.event-title {
+  font-weight: 500;
+}
+.event-meta {
+  font-size: 0.85rem;
 }

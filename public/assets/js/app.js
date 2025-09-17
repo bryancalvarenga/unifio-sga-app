@@ -67,3 +67,10 @@ document.addEventListener("DOMContentLoaded", () => {
     syncMats();
   }
 });
+
+// Lucide Icons
+lucide.createIcons();
+
+document.addEventListener("shown.bs.modal", () => {
+  lucide.createIcons();
+});

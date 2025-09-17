@@ -1,0 +1,70 @@
+/* ===== Event Cards ===== */
+.event-card {
+  border-radius: 12px;
+  border: 1px solid #e9ecef;
+  overflow: hidden;
+}
+
+.event-card h5 {
+  font-size: 1.05rem;
+}
+
+.event-details p {
+  margin: 0 0 4px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.event-details i {
+  width: 16px;
+  height: 16px;
+  color: #6c757d;
+}
+
+/* Status */
+.status-badge {
+  font-size: 0.75rem;
+  padding: 0.35em 0.6em;
+  border-radius: 6px;
+}
+.status-badge.success { background: #d1e7dd; color: #0f5132; }
+.status-badge.danger { background: #f8d7da; color: #842029; }
+.status-badge.warning { background: #fff3cd; color: #664d03; }
+.status-badge.secondary { background: #e2e3e5; color: #41464b; }
+
+/* Botões */
+.btn-action {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  font-size: 0.85rem;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  background: #fff;
+  color: #495057;
+  transition: all 0.2s ease;
+  text-decoration: none;
+}
+.btn-action:hover {
+  background: #f8f9fa;
+  border-color: #adb5bd;
+  color: #212529;
+}
+.btn-action.danger {
+  border-color: #dc3545;
+  color: #dc3545;
+}
+.btn-action.danger:hover {
+  background: #dc3545;
+  color: #fff;
+}
+.btn-action.warning {
+  border-color: #fd7e14;
+  color: #fd7e14;
+}
+.btn-action.warning:hover {
+  background: #fd7e14;
+  color: #fff;
+}
