@@ -45,7 +45,7 @@ $proximosEventos = $stmt->fetchAll(PDO::FETCH_ASSOC);
           </div>
           <h5>Evento Esportivo</h5>
           <p>Agende treinos e campeonatos na quadra poliesportiva.</p>
-          <a href="/eventos/esportivo/novo" class="btn btn-primary w-100">Acessar</a>
+          <a href="/eventos/esportivo/novo" class="btn btn-primary w-100">Novo Evento Esportivo</a>
         </div>
       </div>
     <?php elseif ($tipo === 'PROFESSOR'): ?>
@@ -54,9 +54,9 @@ $proximosEventos = $stmt->fetchAll(PDO::FETCH_ASSOC);
           <div class="home-icon bg-warning-subtle text-warning">
             <i data-lucide="presentation"></i>
           </div>
-          <h5>Evento Não Esportivo</h5>
+          <h5>Evento</h5>
           <p>Solicite a quadra para palestras, workshops e formaturas.</p>
-          <a href="/eventos/nao-esportivo/novo" class="btn btn-warning w-100 text-white">Acessar</a>
+          <a href="/eventos/nao-esportivo/novo" class="btn btn-warning w-100 text-white">Novo Evento</a>
         </div>
       </div>
     <?php elseif ($tipo === 'COORDENACAO'): ?>
@@ -67,7 +67,7 @@ $proximosEventos = $stmt->fetchAll(PDO::FETCH_ASSOC);
           </div>
           <h5>Gerenciar Eventos</h5>
           <p>Aprove ou rejeite solicitações de eventos.</p>
-          <a href="/eventos" class="btn btn-success w-100">Acessar</a>
+          <a href="/eventos" class="btn btn-success w-100">Analisar Solicitações</a>
         </div>
       </div>
     <?php endif; ?>
@@ -80,7 +80,7 @@ $proximosEventos = $stmt->fetchAll(PDO::FETCH_ASSOC);
         </div>
         <h5>Regulamento</h5>
         <p>Consulte as regras e diretrizes de uso da quadra.</p>
-        <a href="/docs/regulamento.pdf" target="_blank" class="btn btn-outline-success w-100">Acessar</a>
+        <a href="/docs/regulamento.pdf" download="regulamento.pdf" class="btn btn-outline-success w-100">Baixar Regulamento</a>
       </div>
     </div>
   </div>
@@ -88,15 +88,26 @@ $proximosEventos = $stmt->fetchAll(PDO::FETCH_ASSOC);
   <!-- Informações institucionais -->
   <div class="home-info card border-0 shadow-sm mb-5">
     <div class="card-body">
-      <h5 class="info-title"><i data-lucide="building" class="me-2"></i> Informações Institucionais</h5>
-      <div class="row mt-3">
+      <h5 class="info-title mb-3 d-flex align-items-center">
+        <i data-lucide="building" id="home-icons"  class="me-2" style="width:18px;height:18px;"></i> Informações Institucionais
+      </h5>
+      <div class="row">
+        <!-- Coluna 1 -->
         <div class="col-md-6 mb-3">
-          <p><i data-lucide="map-pin" class="me-2"></i> Rodovia BR 153, Km 338+420m<br>Bairro Água do Cateto, Ourinhos-SP</p>
-          <p><i data-lucide="phone" class="me-2"></i> (14) 3302-6400</p>
+          <p class="mb-1 fw-semibold"><i data-lucide="map-pin" class="me-2" style="width:16px;height:16px;"></i> Endereço:</p>
+          <p class="text-muted small mb-3">Rodovia BR 153, Km 338+420m<br>Bairro Água do Cateto, Ourinhos-SP</p>
+
+          <p class="mb-1 fw-semibold"><i data-lucide="phone" class="me-2" style="width:16px;height:16px;"></i> Telefone:</p>
+          <p class="text-muted small mb-0">(14) 3302-6400</p>
         </div>
+
+        <!-- Coluna 2 -->
         <div class="col-md-6">
-          <p><i data-lucide="mail" class="me-2"></i> email@unifio.edu.br</p>
-          <p><i data-lucide="message-circle" class="me-2"></i> (14) 99999-9999</p>
+          <p class="mb-1 fw-semibold"><i data-lucide="mail" class="me-2" style="width:16px;height:16px;"></i> Email:</p>
+          <p class="text-muted small mb-3">email@unifio.edu.br</p>
+
+          <p class="mb-1 fw-semibold"><i data-lucide="message-circle" class="me-2" style="width:16px;height:16px;"></i> WhatsApp:</p>
+          <p class="text-muted small mb-0">(14) 99999-9999</p>
         </div>
       </div>
     </div>
@@ -105,36 +116,50 @@ $proximosEventos = $stmt->fetchAll(PDO::FETCH_ASSOC);
   <!-- Próximos eventos -->
   <div class="home-events card border-0 shadow-sm">
     <div class="card-body">
-      <h5 class="info-title"><i data-lucide="calendar" class="me-2"></i> Próximos Eventos</h5>
+      <h5 class="info-title mb-3 d-flex align-items-center">
+        <i data-lucide="calendar" id="home-icons" class="me-2" style="width:18px;height:18px;"></i> Próximos Eventos
+      </h5>
+
       <?php if ($proximosEventos): ?>
-        <ul class="list-unstyled mt-3">
+        <ul class="list-unstyled">
           <?php foreach ($proximosEventos as $ev): ?>
-            <li class="event-item d-flex justify-content-between align-items-center">
+            <li class="event-item d-flex justify-content-between align-items-center border-bottom py-2">
               <div>
-                <span class="event-title">
+                <span class="fw-semibold d-block">
                   <?= htmlspecialchars($ev['finalidade'] ?: $ev['subtipo_esportivo'] ?: $ev['subtipo_nao_esportivo']) ?>
                 </span>
-                <div class="event-meta text-muted small">
-                  <?= date('d/m/Y', strtotime($ev['data_evento'])) ?> – <?= htmlspecialchars($ev['periodo']) ?>
-                </div>
+                <small class="text-muted">
+                  <?= date('d/m/Y', strtotime($ev['data_evento'])) ?> – 
+                  <?= $ev['periodo'] === 'P1' ? '19:15 - 20:55' : '21:10 - 22:50' ?>
+                </small>
               </div>
-              <span class="badge rounded-pill 
-                <?= $ev['status']==='APROVADO'?'bg-success':
-                    ($ev['status']==='REJEITADO'?'bg-danger':
-                    ($ev['status']==='CANCELADO'?'bg-warning text-dark':'bg-secondary')) ?>">
-                <?= htmlspecialchars($ev['status']) ?>
-              </span>
+              <?php
+                // Mapear status do BD para nomes amigáveis
+                $statusLabels = [
+                  'AGENDADO'  => ['label' => 'Agendado',  'class' => 'bg-success-subtle text-success'],
+                  'APROVADO'  => ['label' => 'Agendado',  'class' => 'bg-success text-white'],
+                  'REJEITADO' => ['label' => 'Rejeitado', 'class' => 'bg-danger text-white'],
+                  'CANCELADO' => ['label' => 'Cancelado', 'class' => 'bg-warning text-dark'],
+                  'FINALIZADO'=> ['label' => 'Finalizado','class' => 'bg-secondary text-white'],
+                ];
+
+                $currentStatus = $statusLabels[$ev['status']] ?? ['label' => 'Pendente', 'class' => 'bg-secondary'];
+                ?>
+                <span class="badge rounded-pill px-3 <?= $currentStatus['class'] ?>">
+                  <?= $currentStatus['label'] ?>
+                </span>
             </li>
           <?php endforeach; ?>
         </ul>
-        <div class="text-center mt-4">
-          <a href="/eventos" class="btn btn-outline-primary">Ver Todos os Eventos</a>
+        <div class="text-center mt-3">
+          <a href="/eventos" class="btn btn-outline-primary btn-sm">Ver Todos os Eventos</a>
         </div>
       <?php else: ?>
-        <p class="text-muted">Nenhum evento futuro encontrado.</p>
+        <p class="text-muted small">Nenhum evento futuro encontrado.</p>
       <?php endif; ?>
     </div>
   </div>
+
 </div>
 
 

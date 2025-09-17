@@ -9,10 +9,16 @@
 @import url("partials/header.css");
 @import url("partials/show-modal.css");
 @import url("pages/index.css");
+@import url("pages/profile.css");
 
 :root {
     --auth-font-color: rgb(99 114 138);
     --unifio-color-blue: #004998;
     --unifio-color-orange: #ED8A26;
     --unifio-color-white: #FFFFFF;
+    --background-color: rgb(249, 250, 251);
+}
+
+body {
+    background: var(--background-color);
 }

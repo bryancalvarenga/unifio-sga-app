@@ -1,0 +1,27 @@
+.icon-sm {
+  width: 16px;
+  height: 16px;
+  stroke-width: 1.8;
+}
+
+.icon-lg {
+  width: 22px;
+  height: 22px;
+  stroke-width: 2;
+}
+
+.card {
+  border-radius: 1rem;
+}
+
+.input-group-text {
+  border-right: 0;
+}
+
+.input-group .form-control {
+  border-left: 0;
+}
+
+.btn {
+  border-radius: 0.6rem;
+}

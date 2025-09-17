@@ -48,9 +48,9 @@ function formatarData($data) {
 
 <div class="d-flex justify-content-between align-items-center mb-4">
   <div>
-    <h1 class="mb-1 d-flex align-items-center">
-      <i data-lucide="calendar-days" class="me-2"></i> Meus Eventos
-    </h1>
+    <h2 class="fw-bold d-flex align-items-center">
+      <i data-lucide="calendar-days" id="home-icons"  class="me-2 icon-lg"></i> Meus Eventos
+    </h2>
     <p class="text-muted mb-0">Gerencie seus agendamentos passados e futuros</p>
   </div>
   <div>
@@ -107,7 +107,7 @@ function formatarData($data) {
           <div class="card-body">
             <div class="d-flex justify-content-between align-items-start mb-2">
               <div>
-                <h5 class="fw-bold mb-1">
+                <h5 class="fw-bold mb-1 d-flex align-items-center">
                   <i data-lucide="<?= $categoria==='ESPORTIVO'?'trophy':'presentation' ?>" class="me-1"></i>
                   <?= htmlspecialchars($evento['finalidade'] ?? $evento['categoria']) ?>
                 </h5>
