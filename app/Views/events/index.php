@@ -146,9 +146,18 @@ if (!empty($idsEventos)) {
           <div class="card-body">
             <div class="d-flex justify-content-between align-items-start mb-2">
               <div>
+                <?php
+                  $isNao = ($categoria === 'NAO_ESPORTIVO');
+                  // NAO_ESPORTIVO usa subtipo (Palestra/Workshop/Formatura); ESPORTIVO usa finalidade (Treino/Campeonato/Outro)
+                  $titulo = $isNao
+                      ? ($evento['subtipo_nao_esportivo'] ?: 'Evento')
+                      : ($evento['finalidade'] ?: 'Evento esportivo');
+
+                  $icon = $isNao ? 'presentation' : 'trophy';
+                ?>
                 <h5 class="fw-bold mb-1 d-flex align-items-center">
-                  <i data-lucide="<?= $categoria==='ESPORTIVO'?'trophy':'presentation' ?>" class="me-1"></i>
-                  <?= htmlspecialchars($evento['finalidade'] ?? $evento['categoria']) ?>
+                  <i data-lucide="<?= $icon ?>" class="me-1"></i>
+                  <?= htmlspecialchars($titulo) ?>
                 </h5>
                 <small class="text-muted">Responsável: <?= htmlspecialchars($evento['responsavel'] ?? '-') ?></small>
               </div>
@@ -241,7 +250,18 @@ if (!empty($idsEventos)) {
         ?>
         <div class="event-card card mb-3">
           <div class="card-body">
-            <h5 class="fw-bold"><?= htmlspecialchars($evento['finalidade'] ?? $evento['categoria']) ?></h5>
+           <?php
+              $categoriaP = strtoupper($evento['categoria'] ?? '');
+              $isNaoP = ($categoriaP === 'NAO_ESPORTIVO');
+              $tituloP = $isNaoP
+                  ? ($evento['subtipo_nao_esportivo'] ?: 'Evento')
+                  : ($evento['finalidade'] ?: 'Evento esportivo');
+              $iconP = $isNaoP ? 'presentation' : 'trophy';
+            ?>
+            <h5 class="fw-bold d-flex align-items-center">
+              <i data-lucide="<?= $iconP ?>" class="me-1"></i>
+              <?= htmlspecialchars($tituloP) ?>
+            </h5>
             <div class="event-details text-muted small">
               <p><i data-lucide="calendar"></i> <?= formatarData($evento['data_evento']) ?></p>
               <p><i data-lucide="clock-4"></i> <?= $horarios[$evento['periodo']] ?? $evento['periodo'] ?></p>

@@ -45,19 +45,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // (Opcional) Aviso de Caps Lock em todos os campos de senha
-  document.querySelectorAll("input[type='password']").forEach((pwd) => {
-    pwd.addEventListener("keyup", (e) => {
-      let badge = pwd.parentElement.querySelector(".caps-warning");
-      if (!badge) {
-        badge = document.createElement("small");
-        badge.className = "caps-warning text-danger mt-1 d-block";
-        pwd.parentElement.appendChild(badge);
-      }
-      badge.textContent = e.getModifierState("CapsLock") ? "⚠️ Caps Lock ativado" : "";
-    });
-  });
-
   // (Opcional) Validação de confirmação de senha (register)
   const senha   = document.getElementById("senha");
   const confirm = document.getElementById("senha_confirm");

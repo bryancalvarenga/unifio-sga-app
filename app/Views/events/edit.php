@@ -72,7 +72,7 @@ if (!$event) {
 
         <!-- Tipo / Esporte -->
         <div class="col-md-6">
-          <label class="form-label">Tipo *</label>
+          <label class="form-label">Finalidade *</label>
           <select name="finalidade" class="form-select" required>
             <option value="TREINO" <?= $event['finalidade']==='TREINO'?'selected':'' ?>>Treino</option>
             <option value="CAMPEONATO" <?= $event['finalidade']==='CAMPEONATO'?'selected':'' ?>>Campeonato</option>

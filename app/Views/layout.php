@@ -12,7 +12,7 @@
   <!-- Estilos -->
   <link rel="stylesheet" href="/assets/css/style.css">
 </head>
-<body>
+<body class="site-body">
   <script src="https://unpkg.com/lucide@latest"></script>
   <?php if (!empty($_SESSION['flash'])): ?>
     <div class="alert alert-<?= $_SESSION['flash']['type'] ?> mt-2 text-center">
@@ -30,17 +30,23 @@
   ?>
 
   <?php if (!$isAuthPage): ?>
-    <!-- Navbar -->
-    <?php include VIEW_PATH . "/partials/header.php"; ?>
+    <!-- Header -->
+    <header class="site-header">
+      <?php include VIEW_PATH . "/partials/header.php"; ?>
+    </header>
   <?php endif; ?>
-
-  <div class="<?= $isAuthPage ? 'container d-flex justify-content-center align-items-center vh-100' : 'container mt-4' ?>">
-    <?= $content ?>
-  </div>
+  
+  <main class="site-main">
+    <div class="<?= $isAuthPage ? 'container d-flex justify-content-center align-items-center vh-100' : 'container mt-4' ?>">
+      <?= $content ?>
+    </div>
+  </main>
 
   <?php if (!$isAuthPage): ?>
     <!-- Footer -->
-    <?php include VIEW_PATH . "/partials/footer.php"; ?>
+     <footer class="site-footer text-light pt-5 pb-3 mt-5">
+      <?php include VIEW_PATH . "/partials/footer.php"; ?>
+    </footer>
   <?php endif; ?>
 
   <!-- Bootstrap JS -->

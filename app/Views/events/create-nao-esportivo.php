@@ -76,19 +76,12 @@ function dayBadge(string $ymd, array $ocupado): string {
         <input type="hidden" name="periodo" id="periodo">
 
         <div class="col-md-6">
-          <label class="form-label">Subtipo *</label>
+          <label class="form-label">Finalidade *</label>
           <select name="subtipo_nao_esportivo" class="form-select" required>
             <option value="">Selecione</option>
             <option value="PALESTRA">Palestra</option>
             <option value="WORKSHOP">Workshop</option>
             <option value="FORMATURA">Formatura</option>
-          </select>
-        </div>
-
-        <div class="col-md-6">
-          <label class="form-label">Finalidade</label>
-          <select name="finalidade" class="form-select">
-            <option value="OUTRO">Outro</option>
           </select>
         </div>
 

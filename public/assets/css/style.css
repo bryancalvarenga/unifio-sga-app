@@ -12,13 +12,60 @@
 @import url("pages/profile.css");
 
 :root {
-    --auth-font-color: rgb(99 114 138);
-    --unifio-color-blue: #004998;
-    --unifio-color-orange: #ED8A26;
-    --unifio-color-white: #FFFFFF;
-    --background-color: rgb(249, 250, 251);
+  --auth-font-color: rgb(99 114 138);
+  --unifio-color-blue: #004998;
+  --unifio-color-orange: #ED8A26;
+  --unifio-color-white: #FFFFFF;
+  --background-color: rgb(249, 250, 251); /* miolo */
+  --footer-bg: rgb(17, 24, 39);           /* footer */
+  --header-bg: #ffffff;                   /* header/nav */
 }
 
-body {
-    background: var(--background-color);
+/* html e body sem truques; body usa cor do footer (para o bounce inferior) */
+html, body {
+  height: 100%;
+  overflow-x: hidden;                   /* evita “marcas” nas laterais */
+}
+html { background: var(--footer-bg); }  /* redundância segura */
+body.site-body{
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--footer-bg);         /* bounce inferior = footer */
+  position: relative;                   /* para o ::before */
+}
+
+/* Overlay fixo só no topo = cor do header (bounce superior) */
+body.site-body::before{
+  content: "";
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 40vh;                        /* ajuste fino 25–45vh */
+  background: var(--header-bg);
+  pointer-events: none;
+  z-index: -1;                         /* sempre atrás do conteúdo */
+}
+
+/* Header/ navbar mantém sombra */
+.site-header { position: relative; z-index: 10; }
+.site-header .navbar { background: var(--header-bg); }
+.navbar.shadow-sm {
+  box-shadow: var(--bs-box-shadow-sm, 0 .125rem .25rem rgba(0,0,0,.075)) !important;
+}
+
+/* Miolo preenche 100% para não “vazar” laterais */
+.site-main {
+  flex: 1 0 auto;
+  background: var(--background-color);
+  display: flow-root;                  /* bloqueia colapso de margem (linha) */
+}
+.site-main > *:first-child { margin-top: 0; }
+.site-main > *:last-child  { margin-bottom: 0; }
+
+/* Footer real (escuro) */
+.site-footer{
+  flex: 0 0 auto;
+  background: var(--footer-bg);
+  color: #fff;
 }

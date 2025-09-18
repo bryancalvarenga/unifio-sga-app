@@ -1,5 +1,5 @@
 <!-- Footer -->
-<footer class="text-light pt-5 pb-3 mt-5">
+
   <div class="container">
     <div class="row gy-4">
 
@@ -48,13 +48,12 @@
           <a href="mailto:email@unifio.edu.br" class="footer-text text-decoration-none">email@unifio.edu.br</a>
         </p>
       </div>
-
     </div>
 
     <!-- Linha inferior -->
-    <div class="footer-text text-center text-md-start mt-4 border-top border-secondary pt-3 small">
+    <div class="footer-text text-center text-md-start mt-4 border-top border-secondary pt-3 small"">
       © <?= date('Y') ?> Centro Universitário das Faculdades Integradas de Ourinhos. <br class="d-md-none">
       Todos os direitos reservados.
     </div>
   </div>
-</footer>
+

@@ -7,8 +7,7 @@ $tipo = $_SESSION['tipo_participacao'] ?? null; // garante sempre definido
 $nome = $_SESSION['user']['nome'] ?? 'Meu Perfil';
 ?>
 
-
-<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm mb-4">
+<nav class="navbar navbar-expand-lg bg-white shadow-sm">
   <div class="container">
 
     <!-- Logo -->
@@ -86,3 +85,4 @@ $nome = $_SESSION['user']['nome'] ?? 'Meu Perfil';
     </div>
   </div>
 </nav>
+
