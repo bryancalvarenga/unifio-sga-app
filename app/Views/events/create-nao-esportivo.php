@@ -50,11 +50,12 @@ function dayBadge(string $ymd, array $ocupado): string {
 <div class="container-xxl py-3">
 
   <!-- Cabeçalho -->
-  <div class="d-flex align-items-center gap-2 mb-3">
-    <i class="bi bi-people fs-3 text-warning"></i>
-    <h2 class="m-0">Evento Não Esportivo</h2>
+  <div class="align-items-center gap-2 mb-3">
+    <h2 class="fw-bold d-flex align-items-center">
+      <i data-lucide="presentation" id="home-icons" class="me-2 icon-lg"></i>Novo Evento
+    </h2>
+    <p class="text-muted">Solicite a quadra para palestras, workshops, formaturas e afins</p>
   </div>
-  <p class="text-muted">Solicite a quadra para palestras, workshops, formaturas e afins</p>
 
   <div class="row g-4">
     <!-- CALENDÁRIO -->

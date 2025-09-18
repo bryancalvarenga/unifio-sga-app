@@ -56,3 +56,7 @@ $router->post('/eventos/alterar-status', [EventController::class, 'changeStatus'
 ------------------------- */
 $router->get('/eventos/participar', [ParticipantController::class, 'join']);
 $router->get('/eventos/cancelar', [ParticipantController::class, 'leave']);
+
+$eventController = new EventController();
+$router->post('/eventos/presenca', [$eventController, 'presence']);
+$router->post('/eventos/presenca/remover', [$eventController, 'removePresence']);

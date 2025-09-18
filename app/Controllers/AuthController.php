@@ -32,33 +32,50 @@ class AuthController {
     /**
      * Processa o login de um usuário
      */
-    public function login() {
-        $email = $_POST['email'] ?? '';
+    public function login(){
+        session_start();
+
+        $email = trim($_POST['email'] ?? '');
         $senha = $_POST['senha'] ?? '';
 
-        // Conexão com o banco
-        $pdo = Database::getConnection();
-        $userModel = new User($pdo);
-
-        // Busca o usuário pelo email
-        $u = $userModel->findByEmail($email);
-
-        // Verifica se existe e se a senha confere
-        if ($u && password_verify($senha, $u['senha_hash'])) {
-            session_start();
-            $_SESSION['user_id'] = $u['id'];
-            $_SESSION['user_nome'] = $u['nome'];
-            $_SESSION['tipo_participacao'] = $u['tipo_participacao']; // 👈 importante!
-
-            // Redireciona para home
-            header('Location: /'); 
+        // Se faltar dados básicos
+        if (empty($email) || empty($senha)) {
+            $_SESSION['login_error'] = "Por favor, preencha todos os campos.";
+            header("Location: /login");
             exit;
         }
 
-        // Falha no login
-        http_response_code(401);
-        echo "E-mail ou senha inválidos.";
+        try {
+            $pdo = Database::getConnection();
+            $userModel = new User($pdo);
+
+            // Busca usuário pelo email
+            $u = $userModel->findByEmail($email);
+
+            // Confere usuário + senha
+            if ($u && password_verify($senha, $u['senha_hash'])) {
+                // Autenticação OK
+                $_SESSION['user_id'] = $u['id'];
+                $_SESSION['user_nome'] = $u['nome'];
+                $_SESSION['tipo_participacao'] = $u['tipo_participacao']; 
+
+                // Redireciona para a home
+                header("Location: /");
+                exit;
+            } else {
+                $_SESSION['login_error'] = "Email ou senha incorretos. Tente novamente.";
+                header("Location: /login");
+                exit;
+            }
+        } catch (\Throwable $e) {
+            // Erro inesperado -> log e mensagem amigável
+            error_log("Erro de login: " . $e->getMessage());
+            $_SESSION['login_error'] = "Ocorreu um problema ao tentar fazer login. Tente novamente mais tarde.";
+            header("Location: /login");
+            exit;
+        }
     }
+
 
     /**
      * Exibe o formulário de registro

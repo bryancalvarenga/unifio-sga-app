@@ -23,11 +23,11 @@ $podeEditar = $ehDono || ($tipo === 'COORDENACAO');
 
 // Status estilizado
 $statusLabel = match($evento['status']) {
-    'APROVADO'   => ['Agendado', 'status-pill success'],
-    'PENDENTE'   => ['Pendente', 'status-pill warning'],
-    'REJEITADO'  => ['Rejeitado', 'status-pill danger'],
-    'CANCELADO'  => ['Cancelado', 'status-pill secondary'],
-    default      => [$evento['status'] ?? '-', 'status-pill secondary']
+    'APROVADO'   => ['Agendado', 'status-badge success'],
+    'PENDENTE'   => ['Pendente', 'status-badge secondary'],
+    'REJEITADO'  => ['Rejeitado', 'status-badge danger'],
+    'CANCELADO'  => ['Cancelado', 'status-badge warning text-dark'],
+    default      => [$evento['status'] ?? '-', 'status-badge secondary']
 };
 ?>
 
@@ -115,7 +115,7 @@ $statusLabel = match($evento['status']) {
   <div class="modal-footer border-0">
     <a href="/eventos/editar?id=<?= $evento['id'] ?>" 
        class="btn btn-primary w-100 d-flex align-items-center justify-content-center gap-2">
-      <i data-lucide="pencil"></i> Editar Evento
+      <i data-lucide="pencil" id="index-icons"></i> Editar Evento
     </a>
   </div>
 <?php endif; ?>

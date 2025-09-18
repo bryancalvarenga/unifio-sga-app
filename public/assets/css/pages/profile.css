@@ -25,3 +25,12 @@
 .btn {
   border-radius: 0.6rem;
 }
+
+@media screen and (max-width: 728px) {
+  .profile-btn {
+    flex-direction: column !important;
+  }
+  .profile-btn-logout {
+    object-fit: none !important;
+  }
+}

@@ -9,7 +9,3 @@ if (!defined('VIEW_PATH')) {
     define('VIEW_PATH', APP_PATH . '/Views');
 }
 define('BASE_URL', $_ENV['BASE_URL'] ?? 'http://localhost:8000');
-
-
-
-

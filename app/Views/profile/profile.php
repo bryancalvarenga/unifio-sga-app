@@ -47,7 +47,7 @@ ob_start();
               <div>
                 <h6 class="mb-1"><?= htmlspecialchars($usuario['nome']) ?></h6>
                 <p class="text-muted small mb-2"><?= ucfirst(strtolower($usuario['tipo_participacao'] ?? 'Usuário')) ?></p>
-                <label for="foto_perfil" class="btn btn-sm btn-outline-primary">
+                <label for="foto_perfil" class="btn btn-sm btn-outline-primary d-flex align-items-center">
                   <i data-lucide="camera" class="icon-sm me-1"></i> Alterar foto
                 </label>
                 <input type="file" name="foto_perfil" id="foto_perfil" class="d-none">
@@ -94,23 +94,25 @@ ob_start();
             </div>
 
             <!-- Botões -->
-            <div class="col-12 d-flex justify-content-between mt-3">
-              <a href="/eventos" class="btn btn-outline-secondary">
-                <i data-lucide="calendar" class="icon-sm me-1"></i> Meus Eventos
-              </a>
+            <div class="col-12 d-flex justify-content-between mt-6">
+              <div class="profile-btn d-flex gap-3">
+                <button type="submit" class="btn btn-primary d-flex align-items-center">
+                    <i data-lucide="save" class="icon-sm me-1"></i> Salvar Alterações
+                  </button>
+                <a href="/eventos" class="btn btn-outline-secondary d-flex align-items-center">
+                  <i data-lucide="calendar" class="icon-sm me-1"></i> Meus Eventos
+                </a>
+              </div>
               <div>
-                <a href="/logout" class="btn btn-outline-danger me-2">
+                <a href="/logout" class="profile-btn-logout btn btn-outline-danger d-flex align-items-center">
                   <i data-lucide="log-out" class="icon-sm me-1"></i> Sair
                 </a>
-                <button type="submit" class="btn btn-primary">
-                  <i data-lucide="save" class="icon-sm me-1"></i> Salvar Alterações
-                </button>
               </div>
             </div>
           </form>
           <?php else: ?>
             <div class="alert alert-danger">Usuário não encontrado.</div>
-            <a href="/" class="btn btn-secondary">↩️ Voltar</a>
+            <a href="/" class="btn btn-secondary">Voltar</a>
           <?php endif; ?>
 
         </div>

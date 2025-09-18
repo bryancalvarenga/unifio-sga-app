@@ -136,16 +136,16 @@ $proximosEventos = $stmt->fetchAll(PDO::FETCH_ASSOC);
               <?php
                 // Mapear status do BD para nomes amigáveis
                 $statusLabels = [
-                  'AGENDADO'  => ['label' => 'Agendado',  'class' => 'bg-success-subtle text-success'],
-                  'APROVADO'  => ['label' => 'Agendado',  'class' => 'bg-success text-white'],
-                  'REJEITADO' => ['label' => 'Rejeitado', 'class' => 'bg-danger text-white'],
-                  'CANCELADO' => ['label' => 'Cancelado', 'class' => 'bg-warning text-dark'],
-                  'FINALIZADO'=> ['label' => 'Finalizado','class' => 'bg-secondary text-white'],
+                  'AGENDADO'  => ['label' => 'Agendado',  'class' => 'success'],
+                  'APROVADO'  => ['label' => 'Agendado',  'class' => 'success'],
+                  'REJEITADO' => ['label' => 'Rejeitado', 'class' => 'danger'],
+                  'CANCELADO' => ['label' => 'Cancelado', 'class' => 'warning text-dark'],
+                  'FINALIZADO'=> ['label' => 'Finalizado','class' => 'secondary text-white'],
                 ];
 
-                $currentStatus = $statusLabels[$ev['status']] ?? ['label' => 'Pendente', 'class' => 'bg-secondary'];
+                $currentStatus = $statusLabels[$ev['status']] ?? ['label' => 'Pendente', 'class' => 'secondary'];
                 ?>
-                <span class="badge rounded-pill px-3 <?= $currentStatus['class'] ?>">
+                <span class="status-badge <?= $currentStatus['class'] ?>">
                   <?= $currentStatus['label'] ?>
                 </span>
             </li>

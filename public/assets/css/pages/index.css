@@ -68,3 +68,17 @@
   background: #fd7e14;
   color: #fff;
 }
+#index-icons {
+  width: 18px;
+  height: 18px;
+}
+.btn-action.confirmed {
+  background-color: #28a745; /* verde mais forte */
+  color: #fff;
+  border-color: #28a745;
+  opacity: 0.9;
+}
+.btn-action.confirmed:hover {
+  opacity: 1;
+}
+

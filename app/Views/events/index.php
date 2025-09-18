@@ -35,32 +35,67 @@ $statusMap = [
 ];
 
 function formatarData($data) {
-    $formatter = new IntlDateFormatter(
+    $tz  = new DateTimeZone('America/Sao_Paulo');
+    $dt  = DateTime::createFromFormat('!Y-m-d', $data, $tz) ?: new DateTime($data, $tz);
+    $fmt = new IntlDateFormatter(
         'pt_BR',
         IntlDateFormatter::FULL,
         IntlDateFormatter::NONE,
         'America/Sao_Paulo',
         IntlDateFormatter::GREGORIAN
     );
-    return ucfirst($formatter->format(new DateTime($data)));
+    return ucfirst($fmt->format($dt));
+}
+
+// =====================================
+// 🔹 PRÉ-CARREGAR PRESENÇAS DO BANCO
+// =====================================
+use Core\Database;
+$pdo = Database::getConnection();
+
+// juntar todos os IDs de eventos (próximos e passados)
+$idsEventos = array_merge(
+  array_column($proximos, 'id'),
+  array_column($passados, 'id')
+);
+
+$confirmadas = []; // eventos em que o usuário já confirmou
+$contagens   = []; // total de presenças por evento
+
+if (!empty($idsEventos)) {
+    $in = implode(',', array_fill(0, count($idsEventos), '?'));
+
+    // presenças do usuário logado
+    $q1 = $pdo->prepare("SELECT evento_id FROM presence WHERE usuario_id = ? AND evento_id IN ($in)");
+    $q1->execute(array_merge([$usuarioId], $idsEventos));
+    foreach ($q1->fetchAll(PDO::FETCH_COLUMN, 0) as $evId) {
+        $confirmadas[(int)$evId] = true;
+    }
+
+    // contagem total de presenças
+    $q2 = $pdo->prepare("SELECT evento_id, COUNT(*) c FROM presence WHERE evento_id IN ($in) GROUP BY evento_id");
+    $q2->execute($idsEventos);
+    foreach ($q2->fetchAll(PDO::FETCH_ASSOC) as $row) {
+        $contagens[(int)$row['evento_id']] = (int)$row['c'];
+    }
 }
 ?>
 
 <div class="d-flex justify-content-between align-items-center mb-4">
   <div>
     <h2 class="fw-bold d-flex align-items-center">
-      <i data-lucide="calendar-days" id="home-icons"  class="me-2 icon-lg"></i> Meus Eventos
+      <i data-lucide="calendar-days" id="home-icons" class="me-2 icon-lg"></i> Meus Eventos
     </h2>
     <p class="text-muted mb-0">Gerencie seus agendamentos passados e futuros</p>
   </div>
   <div>
     <?php if ($tipo === 'ATLETICA'): ?>
-      <a href="/eventos/esportivo/novo" class="btn btn-primary">
-        <i data-lucide="trophy" class="me-1"></i> Evento Esportivo
+      <a href="/eventos/esportivo/novo" class="d-flex align-items-center btn btn-primary">
+        <i data-lucide="trophy" id="index-icons" class="me-1"></i> Evento Esportivo
       </a>
     <?php elseif ($tipo === 'PROFESSOR'): ?>
-      <a href="/eventos/nao-esportivo/novo" class="btn btn-warning text-white">
-        <i data-lucide="presentation" class="me-1"></i> Evento Não Esportivo
+      <a href="/eventos/nao-esportivo/novo" class="d-flex align-items-center btn btn-warning text-white">
+        <i data-lucide="presentation" id="index-icons" class="me-1"></i> Evento Não Esportivo
       </a>
     <?php endif; ?>
   </div>
@@ -101,9 +136,13 @@ function formatarData($data) {
           };
 
           $horaFormatada = $horarios[$evento['periodo']] ?? $evento['periodo'];
+
+          // presenças
+          $jaPresente = !empty($confirmadas[(int)$evento['id']]);
+          $totalPres  = $contagens[(int)$evento['id']] ?? 0;
         ?>
         
-        <div class="event-card card shadow-sm mb-3">
+        <div id="evt-<?= $evento['id'] ?>" class="event-card card shadow-sm mb-3">
           <div class="card-body">
             <div class="d-flex justify-content-between align-items-start mb-2">
               <div>
@@ -122,25 +161,49 @@ function formatarData($data) {
               <p><i data-lucide="calendar"></i> <?= formatarData($evento['data_evento']) ?></p>
               <p><i data-lucide="clock-4"></i> <?= $horaFormatada ?></p>
               <p><i data-lucide="map-pin"></i> Quadra Poliesportiva UNIFIO</p>
+              <p><i data-lucide="users"></i> <?= $totalPres ?> presenças confirmadas</p>
               <?php if (!empty($evento['estimativa_participantes'])): ?>
-                <p><i data-lucide="users"></i> <?= (int)$evento['estimativa_participantes'] ?> participantes</p>
+                <p><i data-lucide="users"></i> <?= (int)$evento['estimativa_participantes'] ?> participantes esperados</p>
               <?php endif; ?>
             </div>
 
             <!-- Ações -->
             <div class="d-flex flex-wrap gap-2">
+
               <button 
                 type="button" 
                 class="btn-action ver-evento"
                 data-id="<?= $evento['id'] ?>" 
                 data-bs-toggle="modal" 
                 data-bs-target="#modalEvento">
-                <i data-lucide="eye"></i> Ver
+                <i data-lucide="eye" id="index-icons"></i> Ver
               </button>
+
+              <?php if ($tipo === 'ALUNO'): ?>
+                <?php if ($jaPresente): ?>
+                  <form action="/eventos/presenca/remover" method="POST" class="m-0 p-0" style="display:inline;">
+                    <input type="hidden" name="id_evento" value="<?= $evento['id'] ?>">
+                    <input type="hidden" name="id_usuario" value="<?= $usuarioId ?>">
+                    <button type="submit" class="btn-action danger"
+                            onclick="return confirm('Deseja mesmo desmarcar sua presença neste evento?')">
+                      <i data-lucide="x-circle" id="index-icons"></i> Cancelar Presença
+                    </button>
+                  </form>
+                <?php else: ?>
+                  <form action="/eventos/presenca" method="POST" class="m-0 p-0" style="display:inline;">
+                    <input type="hidden" name="id_evento" value="<?= $evento['id'] ?>">
+                    <input type="hidden" name="id_usuario" value="<?= $usuarioId ?>">
+                    <button type="submit" class="btn-action success">
+                      <i data-lucide="check-circle" id="index-icons"></i> Marcar Presença
+                    </button>
+                  </form>
+                <?php endif; ?>
+
+              <?php endif; ?>
 
               <?php if ($podeEditarExcluir && $tipo !== 'COORDENACAO'): ?>
                 <a href="/eventos/editar?id=<?= $evento['id'] ?>" class="btn-action">
-                  <i data-lucide="pencil"></i> Editar
+                  <i data-lucide="pencil" id="index-icons"></i> Editar
                 </a>
               <?php endif; ?>
 
@@ -149,14 +212,14 @@ function formatarData($data) {
                   <input type="hidden" name="id" value="<?= $evento['id'] ?>">
                   <button type="submit" class="btn-action danger"
                           onclick="return confirm('Tem certeza que deseja excluir este evento?')">
-                    <i data-lucide="trash-2"></i> Excluir
+                    <i data-lucide="trash-2" id="index-icons"></i> Excluir
                   </button>
                 </form>
               <?php endif; ?>
 
               <?php if ($tipo === 'COORDENACAO'): ?>
                 <a href="/eventos/editar?id=<?= $evento['id'] ?>" class="btn-action warning">
-                  <i data-lucide="check-square"></i> Analisar
+                  <i data-lucide="check-square" id="index-icons"></i> Analisar
                 </a>
               <?php endif; ?>
             </div>
@@ -173,12 +236,16 @@ function formatarData($data) {
   <div class="tab-pane fade" id="passados">
     <?php if ($passados): ?>
       <?php foreach ($passados as $evento): ?>
+        <?php
+          $totalPres = $contagens[(int)$evento['id']] ?? 0;
+        ?>
         <div class="event-card card mb-3">
           <div class="card-body">
             <h5 class="fw-bold"><?= htmlspecialchars($evento['finalidade'] ?? $evento['categoria']) ?></h5>
             <div class="event-details text-muted small">
               <p><i data-lucide="calendar"></i> <?= formatarData($evento['data_evento']) ?></p>
               <p><i data-lucide="clock-4"></i> <?= $horarios[$evento['periodo']] ?? $evento['periodo'] ?></p>
+              <p><i data-lucide="users"></i> <?= $totalPres ?> presenças confirmadas</p>
             </div>
             <span class="status-badge secondary mt-2"><?= htmlspecialchars($evento['status']) ?></span>
           </div>
@@ -190,7 +257,6 @@ function formatarData($data) {
   </div>
 
 </div>
-
 
 <!-- Modal Detalhes do Evento -->
 <div class="modal fade" id="modalEvento" tabindex="-1" aria-labelledby="modalEventoLabel" aria-hidden="true">

@@ -432,4 +432,76 @@ class EventController {
             echo "Falha ao alterar status.";
         }
     }
+     public function presence()
+    {
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            header("Location: /eventos"); exit;
+        }
+
+        if (session_status() === PHP_SESSION_NONE) { session_start(); }
+
+        $eventoId  = $_POST['id_evento']  ?? null;
+        $usuarioId = $_POST['id_usuario'] ?? null;
+
+        // (Opcional) Só ALUNO pode marcar presença
+        $tipo = $_SESSION['tipo_participacao'] ?? null;
+        if ($tipo !== 'ALUNO') {
+            $_SESSION['flash'] = ['type' => 'danger', 'msg' => 'Ação não permitida.'];
+            header("Location: /eventos"); exit;
+        }
+
+        if (!$eventoId || !$usuarioId) {
+            $_SESSION['flash'] = ['type' => 'danger', 'msg' => 'Dados inválidos.'];
+            header("Location: /eventos"); exit;
+        }
+
+        try {
+            $pdo = Database::getConnection();
+            $stmt = $pdo->prepare("
+              INSERT INTO presence (evento_id, usuario_id)
+              VALUES (?, ?)
+              ON DUPLICATE KEY UPDATE created_at = NOW()
+            ");
+            $stmt->execute([$eventoId, $usuarioId]);
+
+            $_SESSION['flash'] = ['type' => 'success', 'msg' => 'Presença confirmada com sucesso!'];
+        } catch (\Throwable $e) {
+            $_SESSION['flash'] = ['type' => 'danger', 'msg' => 'Erro ao confirmar presença.'];
+        }
+
+        header("Location: /eventos#evt-$eventoId"); // ancora no card do evento
+        exit;
+    }
+    public function removePresence()
+    {
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            header("Location: /eventos");
+            exit;
+        }
+
+        if (session_status() === PHP_SESSION_NONE) { session_start(); }
+
+        $eventoId  = $_POST['id_evento'] ?? null;
+        $usuarioId = $_POST['id_usuario'] ?? null;
+
+        if (!$eventoId || !$usuarioId) {
+            $_SESSION['flash'] = ['type' => 'danger', 'msg' => 'Dados inválidos.'];
+            header("Location: /eventos");
+            exit;
+        }
+
+        try {
+            $pdo = Database::getConnection();
+            $stmt = $pdo->prepare("DELETE FROM presence WHERE evento_id = ? AND usuario_id = ?");
+            $stmt->execute([$eventoId, $usuarioId]);
+
+            $_SESSION['flash'] = ['type' => 'warning', 'msg' => 'Presença removida com sucesso.'];
+        } catch (\Throwable $e) {
+            $_SESSION['flash'] = ['type' => 'danger', 'msg' => 'Erro ao remover presença.'];
+        }
+
+        header("Location: /eventos#evt-$eventoId");
+        exit;
+    }
+
 }

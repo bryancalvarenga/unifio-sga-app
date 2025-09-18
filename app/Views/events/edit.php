@@ -10,7 +10,6 @@ $title = $isCoordinator
 
 ob_start();
 
-
 /* Carrega evento */
 $eventId = $_GET['id'] ?? null;
 $pdo = Database::getConnection();
@@ -26,15 +25,19 @@ if (!$event) {
 <div class="container-xxl py-3">
 
   <!-- Cabeçalho -->
-  <div class="d-flex align-items-center gap-2 mb-3">
-    <i class="bi <?= $isCoordinator ? 'bi-search text-danger' : 'bi-pencil-square text-primary' ?> fs-3"></i>
-    <h2 class="m-0"><?= $isCoordinator ? "Analisar Solicitação" : "Editar Evento" ?></h2>
+  <div class="align-items-center gap-2 mb-3">
+    <div>
+      <h2 class="d-flex fw-bold align-items-center">
+        <i id="home-icons" class="me-2" data-lucide="<?= $isCoordinator ? 'search' : 'pencil' ?>"></i>
+        <?= $isCoordinator ? "Analisar Solicitação" : "Editar Evento" ?>
+      </h2>
+      <p class="text-muted mb-0">
+        <?= $isCoordinator 
+            ? "Revise as informações do evento e defina o status da solicitação." 
+            : "Modifique as informações do seu evento. Alterações em eventos já aprovados podem requerer nova aprovação." ?>
+      </p>
+    </div>
   </div>
-  <p class="text-muted">
-    <?= $isCoordinator 
-        ? "Revise as informações do evento e defina o status da solicitação." 
-        : "Modifique as informações do seu evento. Alterações em eventos já aprovados podem requerer nova aprovação." ?>
-  </p>
 
   <!-- ALERTA para usuários normais -->
   <?php if (!$isCoordinator): ?>
@@ -45,9 +48,18 @@ if (!$event) {
   <?php endif; ?>
 
   <div class="row g-4">
+
     <!-- CALENDÁRIO -->
     <div class="col-12 col-lg-6">
-      <?php include VIEW_PATH . "/partials/calendar.php"; ?>
+      <?php
+      // abrir no mês do evento ou no mês da navegação (?mes=)
+      $mesParam = $_GET['mes'] ?? substr($event['data_evento'], 0, 7);
+
+      // manter navegação dentro da tela de edição
+      $basePath = "/eventos/editar?id=" . urlencode($event['id']);
+
+      include VIEW_PATH . "/partials/calendar.php";
+      ?>
     </div>
 
     <!-- FORM DETALHES -->

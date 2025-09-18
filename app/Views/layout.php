@@ -13,9 +13,14 @@
   <link rel="stylesheet" href="/assets/css/style.css">
 </head>
 <body>
-  <!-- Lucide Icons -->
-  <script src="https://unpkg.com/lucide@latest">
-   </script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <?php if (!empty($_SESSION['flash'])): ?>
+    <div class="alert alert-<?= $_SESSION['flash']['type'] ?> mt-2 text-center">
+      <?= htmlspecialchars($_SESSION['flash']['msg']) ?>
+    </div>
+    <?php unset($_SESSION['flash']); ?>
+  <?php endif; ?>
+
   <?php
     // Verifica se é página de autenticação
     $isAuthPage = isset($title) && (
@@ -42,7 +47,7 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
   <!-- Scripts -->
-  <script src="/assets/js/app.js">
-  </script>
+  <script src="/assets/js/app.js"></script>
+  <script src="/assets/js/auth.js"></script>
 </body>
 </html>

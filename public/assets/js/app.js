@@ -51,6 +51,31 @@ document.addEventListener("DOMContentLoaded", () => {
         if (salvar) salvar.disabled = false;
       });
     });
+
+    /* ===========================
+       PRÉ-SELEÇÃO (edição de evento)
+       =========================== */
+    if (dataInput && perInput && dataInput.value && perInput.value) {
+      const preset = document.querySelector(
+        `.slot[data-date="${dataInput.value}"][data-periodo="${perInput.value}"]`
+      );
+      if (preset) {
+        // limpa qualquer seleção antiga
+        document.querySelectorAll('.slot.selected').forEach(b => b.classList.remove('selected'));
+
+        // marca o slot correto
+        preset.classList.add('selected');
+
+        // mostra no label
+        if (labelSel) {
+          labelSel.textContent = new Date(preset.dataset.date).toLocaleDateString('pt-BR') +
+            ' • ' + (preset.dataset.periodo === 'P1' ? '19:15' : '21:10');
+        }
+
+        // libera salvar
+        if (salvar) salvar.disabled = false;
+      }
+    }
   }
 
   /* ==================================

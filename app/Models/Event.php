@@ -71,7 +71,7 @@ class Event {
             LEFT JOIN users u ON u.id = e.usuario_id
             ORDER BY e.data_evento ASC, e.periodo ASC
         ";
-        return $this->db->query($sql)->fetchAll(PDO::FETCH_ASSOC); // ✅ corrigido para $this->db
+        return $this->db->query($sql)->fetchAll(PDO::FETCH_ASSOC);
     }
 
 
